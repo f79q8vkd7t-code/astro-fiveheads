@@ -1,0 +1,156 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Nav from "../components/Nav.astro";
+import ShowList from "../components/ShowList.astro";
+import TwoClickVideo from "../components/TwoClickVideo.astro";
+import PhotoStrip from "../components/PhotoStrip.astro";
+import { site } from "../config/site";
+
+const gallery = import.meta.glob("../assets/gallery/*.{jpg,jpeg,png,webp,avif}", { eager: true });
+const imgs = Object.values(gallery).map((m) => m.default).filter(Boolean);
+imgs.sort((a, b) => (b.src || "").localeCompare(a.src || ""));
+const preview = imgs.slice(0, 6);
+---
+<BaseLayout title={`${site.bandName}`}>
+  <Nav />
+
+  <!-- BIG HERO (full-bleed) -->
+  <header class="heroFull">
+    <img src="/hero.jpg" alt={`${site.bandName} live`} loading="eager" />
+    <div class="overlay">
+      <div class="heroTitle" aria-label={site.bandName}>
+        <span class="stroke">{site.bandName}</span>
+        <br />
+        <span class="fill">{site.bandName}</span>
+      </div>
+
+      <div class="heroBadges">
+        <span class="badge hot">Next show</span>
+        <span class="badge">27.03.2026 · Kesselhaus Bad Tölz</span>
+      </div>
+
+      <div class="heroActions">
+        <a class="btn primary" href="/#music">Music</a>
+        <a class="btn" href="/gallery">Fotos</a>
+        <a class="btn" href="/#contact">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Photo strip (quick punch of personality) -->
+  <PhotoStrip />
+
+  <main>
+    <section class="section" style="padding-top:44px;">
+      <div class="container">
+        <div class="card" style="padding:18px;">
+          <p class="p" style="max-width:72ch;">
+            Kurzer Text über euch (2–4 Sätze). Tipp: 1 Satz „wer ihr seid“, 1 Satz „was man live fühlt“, 1 Satz „woher/wohin“.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="live" class="section">
+      <div class="container">
+        <h2 class="h2">Konzerte</h2>
+        <ShowList />
+      </div>
+    </section>
+
+    <section id="music" class="section">
+      <div class="container">
+        <h2 class="h2">Hören</h2>
+
+        <div class="card" style="padding:18px;">
+          <p class="p">
+            Ihr habt noch kein Spotify – kein Problem: hier könnt ihr eine MP3 (oder WAV) direkt hosten.
+            Lege deine Datei nach <code>public/audio/song.mp3</code> und sie wird hier abgespielt.
+          </p>
+
+          <div class="hr"></div>
+
+          <audio controls style="width:100%;">
+            <source src="/audio/song.mp3" type="audio/mpeg" />
+            <source src="/audio/song.wav" type="audio/wav" />
+            Dein Browser unterstützt den Audio-Player nicht.
+          </audio>
+
+          <div class="hr"></div>
+
+          <div class="small">Links</div>
+          <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px;">
+            <a class="btn" href={site.links.youtube} target="_blank" rel="noopener">YouTube</a>
+            <a class="btn" href={site.links.instagram} target="_blank" rel="noopener">Instagram</a>
+            <a class="btn" href={site.links.tiktok} target="_blank" rel="noopener">TikTok</a>
+            <a class="btn" href={site.links.bandcamp} target="_blank" rel="noopener">Bandcamp</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2 class="h2">Fotos</h2>
+
+        <div class="grid" style="grid-template-columns: repeat(2, 1fr); gap: 12px;">
+          {preview.length ? preview.map((img) => (
+            <a class="card" href="/gallery" style="display:block; overflow:hidden;">
+              <img src={img.src} alt="Live Foto" style="width:100%; height:auto; display:block;" loading="lazy" />
+            </a>
+          )) : (
+            <div class="card" style="padding:18px;">
+              <p class="p">Lege Fotos in <code>src/assets/gallery/</code> ab (z.B. .jpg). Dann erscheinen sie hier automatisch.</p>
+            </div>
+          )}
+        </div>
+
+        <div style="margin-top:16px;">
+          <a class="btn primary" href="/gallery">Zur Galerie</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="container">
+        <h2 class="h2">Contact</h2>
+
+        <div class="card" style="padding:18px;">
+          <p class="p">
+            E-Mail: <a class="btn primary" href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- penultimate: video -->
+    <section id="video" class="section">
+      <div class="container">
+        <h2 class="h2">Video</h2>
+
+        <TwoClickVideo
+          title="FIVEHEADS — Live"
+          youtubeId="yUWhpLzvb_Y"
+          poster="/video-poster.svg"
+        />
+      </div>
+    </section>
+
+    <!-- last: legals -->
+    <section class="section">
+      <div class="container">
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <a class="btn" href="/impressum">Impressum</a>
+          <a class="btn" href="/datenschutz">Datenschutz</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="hr"></div>
+      <div class="small">© {new Date().getFullYear()} {site.bandName}</div>
+    </div>
+  </footer>
+</BaseLayout>

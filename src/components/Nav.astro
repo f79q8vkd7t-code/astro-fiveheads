@@ -1,0 +1,35 @@
+---
+import { site } from "../config/site";
+const items = [
+  { href: "/#about", label: "About" },
+  { href: "/#live", label: "Live" },
+  { href: "/#music", label: "Music" },
+  { href: "/gallery", label: "Gallery" },
+  { href: "/#contact", label: "Contact" }
+];
+---
+<nav class="nav" id="topnav">
+  <div class="container row">
+    <a class="logo" href="/">{site.bandName}</a>
+    <div class="links">
+      {items.map((i) => (
+        <a href={i.href}>{i.label}</a>
+      ))}
+      <a href={site.links.instagram} target="_blank" rel="noopener">Instagram</a>
+      <a href={site.links.tiktok} target="_blank" rel="noopener">TikTok</a>
+    </div>
+  </div>
+
+  <script is:inline>
+    (function(){
+      const nav = document.getElementById("topnav");
+      if(!nav) return;
+      const onScroll = () => {
+        if (window.scrollY > 10) nav.classList.add("scrolled");
+        else nav.classList.remove("scrolled");
+      };
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+    })();
+  </script>
+</nav>

@@ -1,0 +1,47 @@
+---
+/**
+ * Two-click YouTube embed to avoid loading external content until user clicks.
+ * Set `poster` to a local image in /public (recommended).
+ */
+const { title = "Video", youtubeId = "dQw4w9WgXcQ", poster = "/video-poster.svg" } = Astro.props;
+---
+<div class="card" style="position:relative; overflow:hidden;">
+  <button
+    type="button"
+    class="btn primary"
+    style="position:absolute; left:18px; bottom:18px; z-index:2;"
+    data-yt={youtubeId}
+    aria-label={`${title} abspielen`}
+  >
+    ▶︎ Play
+  </button>
+
+  <img src={poster} alt={title} style="width:100%; height:auto; display:block; filter:saturate(.9) contrast(1.05);" />
+
+  <div class="small" style="position:absolute; top:14px; left:18px; z-index:2;">
+    Externer Inhalt wird erst nach Klick geladen
+  </div>
+
+  <script is:inline>
+    (function () {
+      const btn = document.currentScript?.parentElement?.querySelector("button[data-yt]");
+      if (!btn) return;
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-yt");
+        const wrap = btn.parentElement;
+        if (!wrap || !id) return;
+        const iframe = document.createElement("iframe");
+        iframe.width = "560";
+        iframe.height = "315";
+        iframe.style.width = "100%";
+        iframe.style.aspectRatio = "16/9";
+        iframe.style.border = "0";
+        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+        iframe.allowFullscreen = true;
+        iframe.src = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1";
+        wrap.innerHTML = "";
+        wrap.appendChild(iframe);
+      });
+    })();
+  </script>
+</div>

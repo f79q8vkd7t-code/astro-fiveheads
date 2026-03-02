@@ -1,0 +1,34 @@
+---
+import { shows } from "../data/shows";
+
+const fmt = (iso) => {
+  const d = new Date(iso + "T00:00:00");
+  return new Intl.DateTimeFormat("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" }).format(d);
+};
+
+const sorted = [...shows].sort((a, b) => a.date.localeCompare(b.date));
+---
+<div class="card" style="padding:18px;">
+  <div class="small" style="margin-bottom:10px;">Next shows</div>
+
+  <div style="display:grid; gap:10px;">
+    {sorted.map((s) => (
+      <div style="display:grid; grid-template-columns: 110px 1fr auto; gap:12px; align-items:center; border-top:1px solid var(--line); padding-top:10px;">
+        <div class="small" style="letter-spacing:.18em; color:var(--fg); opacity:.9;">{fmt(s.date)}</div>
+
+        <div>
+          <div style="font-weight:700; letter-spacing:-.01em;">{s.city} — {s.venue}</div>
+          <div class="small" style="margin-top:4px; opacity:.8;">
+            {s.note ? s.note : ""}{s.country ? (s.note ? " · " : "") + s.country : ""}
+          </div>
+        </div>
+
+        {s.ticketUrl ? (
+          <a class="btn" href={s.ticketUrl} target="_blank" rel="noopener">Tickets</a>
+        ) : (
+          <span class="small">Info</span>
+        )}
+      </div>
+    ))}
+  </div>
+</div>

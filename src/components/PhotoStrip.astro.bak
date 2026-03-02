@@ -1,0 +1,31 @@
+---
+/**
+ * Horizontal photo strip using images from /public/strip/
+ * To change images: replace files in public/strip or edit the list below.
+ */
+const images = [
+  "/strip/live-01.jpg",
+  "/strip/live-02.jpg",
+  "/strip/live-03.jpg",
+  "/strip/live-04.jpg",
+  "/strip/live-05.jpg",
+  "/strip/live-06.jpg",
+  "/strip/live-07.jpg",
+  "/strip/live-08.jpg",
+  "/strip/live-09.jpg"
+];
+---
+<div class="strip" aria-label="Live Foto Streifen">
+  <div class="stripTrack">
+    {images.map((src) => (
+      <a href="/gallery" class="stripItem" title="Zur Galerie">
+        <img src={src} alt="Live Foto" loading="lazy" />
+      </a>
+    ))}
+    {images.map((src) => (
+      <a href="/gallery" class="stripItem" title="Zur Galerie" aria-hidden="true" tabindex="-1">
+        <img src={src} alt="" loading="lazy" />
+      </a>
+    ))}
+  </div>
+</div>

@@ -1,0 +1,256 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Nav from "../components/Nav.astro";
+import ShowList from "../components/ShowList.astro";
+import PhotoStrip from "../components/PhotoStrip.astro";
+import { site } from "../config/site";
+
+const gallery = import.meta.glob("../assets/gallery/*.{jpg,jpeg,png,webp,avif}", { eager: true });
+const imgs = Object.values(gallery).map((m) => m.default).filter(Boolean);
+imgs.sort((a, b) => (b.src || "").localeCompare(a.src || ""));
+const preview = imgs.slice(0, 12);
+---
+<BaseLayout title={`${site.bandName}`}>
+  <Nav />
+
+  <!-- BIG HERO (full-bleed) -->
+  <header class="heroFull">
+    <img src="/hero.jpg" alt={`${site.bandName} live`} loading="eager" />
+    <div class="overlay">
+      <h1 class="heroStack" aria-label={site.bandName}>
+        <span class="heroLine heroLineTop">{site.bandName}</span>
+        <span class="heroLine heroLineMid">{site.bandName}</span>
+        <span class="heroLine heroLineBot">{site.bandName}</span>
+      </h1>
+
+      <div class="heroBadges">
+        <span class="badge hot">Next show</span>
+        <span class="badge">27.03.2026 · Kesselhaus Bad Tölz</span>
+      </div>
+    </div>
+  </header>
+
+  <PhotoStrip />
+
+  <main>
+    <!-- About -->
+    <section id="about" class="section" style="padding-top:44px;">
+      <div class="container">
+        <h2 class="h2">Über uns</h2>
+        <div class="card" style="padding:18px;">
+          <p class="p" style="max-width:72ch;">
+            Wir sind FIVEHEADS aus Bad Tölz und Umgebung – fünf Leute, die einfach Bock haben, eigene Songs zu spielen:
+            irgendwo zwischen Rock, Punk und Indie. Beim Wettbewerb „Your Voice Your Choice“ haben wir den 2. Platz
+            geholt und zusätzlich den Preis für die beste musikalische Darbietung – zwei Auszeichnungen, die uns mega
+            motivieren.
+          </p>
+
+          <div class="hr"></div>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            {["Rock", "Punk", "Indie"].map((t) => (
+              <span class="pill">{t}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Live -->
+    <section id="live" class="section">
+      <div class="container">
+        <h2 class="h2">Konzerte</h2>
+        <ShowList />
+      </div>
+    </section>
+
+    <!-- Music -->
+    <section id="music" class="section">
+      <div class="container">
+        <h2 class="h2">Hören</h2>
+
+        <div class="card musicCard">
+          <div class="musicTop">
+            <div class="musicEyebrow">Single</div>
+            <h3 class="musicTitle">In Our Hands</h3>
+            <p class="p musicCopy">
+              In Our Hands ist für Your Voice Your Choice entstanden.
+              Ein Statement für Demokratie und Zusammenhalt.
+            </p>
+          </div>
+
+          <div class="hr"></div>
+
+          <div class="musicPlayerWrap">
+            <audio controls preload="metadata" style="width:100%;">
+              <source src="/audio/song.mp3" type="audio/mpeg" />
+              <source src="/audio/song.wav" type="audio/wav" />
+              Dein Browser unterstützt den Audio-Player nicht.
+            </audio>
+          </div>
+
+          <div class="hr"></div>
+
+          <div class="small">Follow</div>
+          <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px;">
+            <a class="btn primary big" href={site.links.instagram} target="_blank" rel="noopener">Instagram</a>
+            <a class="btn big" href={site.links.tiktok} target="_blank" rel="noopener">TikTok</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Photos -->
+    <section class="section">
+      <div class="container">
+        <h2 class="h2">Fotos</h2>
+
+        {preview.length ? (
+          <>
+            <div class="photoGrid" id="homeGrid">
+              {preview.map((img) => (
+                <button class="photoItem" type="button" data-full={img.src} aria-label="Foto öffnen">
+                  <img src={img.src} alt="Live Foto" loading="lazy" />
+                </button>
+              ))}
+            </div>
+
+            <dialog class="modal" id="homeModal">
+              <div class="inner">
+                <header>
+                  <div class="small">Live Foto</div>
+                  <button type="button" id="homeClose">Schließen</button>
+                </header>
+                <img id="homeModalImg" src="" alt="Live Foto groß" />
+              </div>
+            </dialog>
+
+            <script is:inline>
+              var homeGrid = document.getElementById("homeGrid");
+              var homeModal = document.getElementById("homeModal");
+              var homeModalImg = document.getElementById("homeModalImg");
+              var homeCloseBtn = document.getElementById("homeClose");
+
+              function setHomeModalOpen(isOpen) {
+                if (!homeModal) return;
+                if (isOpen) {
+                  homeModal.classList.add("is-open");
+                  homeModal.setAttribute("open", "");
+                  if (typeof homeModal.showModal === "function" && !homeModal.open) {
+                    try { homeModal.showModal(); } catch (_) {}
+                  }
+                  document.body.style.overflow = "hidden";
+                  return;
+                }
+
+                homeModal.classList.remove("is-open");
+                if (typeof homeModal.close === "function" && homeModal.open) {
+                  try { homeModal.close(); } catch (_) {}
+                }
+                homeModal.removeAttribute("open");
+                document.body.style.overflow = "";
+              }
+
+              function openHomeModal(src){
+                if (!homeModalImg || !src) return;
+                homeModalImg.src = src;
+                setHomeModalOpen(true);
+              }
+
+              function closeHomeModal(){
+                setHomeModalOpen(false);
+                if (homeModalImg) homeModalImg.src = "";
+              }
+
+              if (homeGrid) {
+                homeGrid.addEventListener("click", function (e) {
+                  var target = e.target;
+                  if (!(target instanceof Element)) return;
+                  var btn = target.closest("button[data-full]");
+                  if (!btn) return;
+                  var src = btn.getAttribute("data-full");
+                  if (src) openHomeModal(src);
+                });
+              }
+
+              if (homeCloseBtn) homeCloseBtn.addEventListener("click", closeHomeModal);
+              if (homeModal) {
+                homeModal.addEventListener("click", function (e) {
+                  if (e.target === homeModal) closeHomeModal();
+                });
+              }
+              window.addEventListener("keydown", function (e) {
+                if (e.key === "Escape") closeHomeModal();
+              });
+            </script>
+          </>
+        ) : (
+          <div class="card" style="padding:18px;">
+            <p class="p">Lege Fotos in <code>src/assets/gallery/</code> ab (z.B. .jpg). Dann erscheinen sie hier automatisch.</p>
+          </div>
+        )}
+
+        <div style="margin-top:16px;">
+          <a class="btn primary" href="/gallery">Zur Galerie</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section">
+      <div class="container">
+        <h2 class="h2">Contact</h2>
+
+        <div class="card" style="padding:18px;">
+          <p class="p">
+            E-Mail: <a class="btn primary" href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>
+          </p>
+
+          <div class="hr"></div>
+
+          <div class="small">Social</div>
+          <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px;">
+            <a class="btn big" href={site.links.instagram} target="_blank" rel="noopener">Instagram</a>
+            <a class="btn big" href={site.links.tiktok} target="_blank" rel="noopener">TikTok</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Video -->
+    <section id="video" class="section">
+      <div class="container">
+        <h2 class="h2">Video</h2>
+
+        <div class="card" style="padding:0; overflow:hidden;">
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/yUWhpLzvb_Y?si=PkLDK97SeT30rK6u"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+            style="display:block; width:100%; aspect-ratio:16/9;"
+          ></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="hr"></div>
+
+      <div class="footerRow">
+        <div class="small">© {new Date().getFullYear()} {site.bandName}</div>
+        <div class="footerLinks">
+          <a href="/impressum">Impressum</a>
+          <a href="/datenschutz">Datenschutz</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</BaseLayout>

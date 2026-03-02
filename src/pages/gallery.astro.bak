@@ -1,0 +1,87 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Nav from "../components/Nav.astro";
+import { site } from "../config/site";
+
+const gallery = import.meta.glob("../assets/gallery/*.{jpg,jpeg,png,webp,avif}", { eager: true });
+const imgs = Object.values(gallery).map((m) => m.default).filter(Boolean);
+imgs.sort((a, b) => (b.src || "").localeCompare(a.src || ""));
+---
+<BaseLayout title={`${site.bandName} — Gallery`}>
+  <Nav />
+  <main class="section">
+    <div class="container">
+      <div class="kicker">
+        <div class="dot"></div>
+        <div class="small">Gallery</div>
+      </div>
+      <h1 class="h2" style="font-size: clamp(34px, 4vw, 54px); margin-top: 10px;">Live‑Fotos</h1>
+      <p class="p" style="max-width:70ch;">
+        Tipp: Fotos einfach in <code>src/assets/gallery/</code> reinlegen und committen — die Galerie aktualisiert sich automatisch.
+      </p>
+
+      <div class="hr"></div>
+
+      {imgs.length ? (
+        <>
+          <div class="masonry" id="grid">
+            {imgs.map((img) => (
+              <div class="tile" data-full={img.src}>
+                <img src={img.src} alt="Live Foto" loading="lazy" />
+              </div>
+            ))}
+          </div>
+
+          <dialog class="modal" id="modal">
+            <div class="inner">
+              <header>
+                <div class="small">Live Foto</div>
+                <button type="button" id="close">Schließen</button>
+              </header>
+              <img id="modalImg" src="" alt="Live Foto groß" />
+            </div>
+          </dialog>
+
+          <script is:inline>
+            const grid = document.getElementById("grid");
+            const modal = document.getElementById("modal");
+            const modalImg = document.getElementById("modalImg");
+            const closeBtn = document.getElementById("close");
+
+            function openModal(src){
+              if(!modal || !modalImg) return;
+              modalImg.src = src;
+              modal.setAttribute("open", "");
+            }
+            function closeModal(){
+              if(!modal) return;
+              modal.removeAttribute("open");
+              if(modalImg) modalImg.src = "";
+            }
+
+            grid?.addEventListener("click", (e) => {
+              const tile = e.target?.closest?.(".tile");
+              const src = tile?.getAttribute?.("data-full");
+              if (src) openModal(src);
+            });
+
+            closeBtn?.addEventListener("click", closeModal);
+            modal?.addEventListener("click", (e) => {
+              if (e.target === modal) closeModal();
+            });
+            window.addEventListener("keydown", (e) => {
+              if (e.key === "Escape") closeModal();
+            });
+          </script>
+        </>
+      ) : (
+        <div class="card" style="padding:18px;">
+          <div class="small">Noch keine Bilder gefunden</div>
+          <p class="p" style="margin-top:10px;">
+            Lege Fotos in <code>src/assets/gallery/</code> ab (z.B. <code>2026-02-berlin-01.jpg</code>) und starte <code>npm run dev</code>.
+          </p>
+        </div>
+      )}
+    </div>
+  </main>
+</BaseLayout>

@@ -1,0 +1,16 @@
+export const site = {
+  bandName: "FIVEHEADS",
+  // Optional short line under the name (leave empty for super minimal)
+  subtitle: "",
+  links: {
+    instagram: "https://instagram.com/DEINHANDLE",
+    youtube: "https://youtube.com/@DEINHANDLE",
+    tiktok: "https://tiktok.com/@DEINHANDLE",
+    bandcamp: "https://DEINNAME.bandcamp.com"
+  },
+  contactEmail: "contact@deinedomain.de",
+  // Optional: EPK/Presskit Download (liegt in public/epk/presskit.pdf)
+  presskitPath: "/epk/presskit.pdf",
+  description:
+    "FIVEHEADS — Rock/Punk/Indie Band. Offizielle Website mit Live-Terminen, Fotos und Kontakt."
+};
