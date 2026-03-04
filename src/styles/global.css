@@ -244,6 +244,26 @@ a:hover{ opacity:.92; }
   gap: 18px;
   flex-wrap: wrap;
 }
+.navToggle{
+  display:none;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255,255,255,.04);
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  flex-direction:column;
+  cursor:pointer;
+}
+.navToggle span{
+  width: 18px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--fg);
+  display:block;
+}
 
 
 /* hero */
@@ -557,6 +577,18 @@ a:hover{ opacity:.92; }
   background: rgba(0,0,0,.28);
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.02);
 }
+.galleryPlayerCard{
+  padding: 14px;
+  background:
+    radial-gradient(420px 220px at 0% 0%, rgba(255,47,179,.12), transparent 58%),
+    rgba(255,255,255,.03);
+}
+.galleryPlayerTitle{
+  font-size: clamp(20px, 2.8vw, 28px);
+  line-height: 1.1;
+  margin-top: 6px;
+  color: var(--fg);
+}
 
 /* photo grid without gaps */
 .photoGrid{
@@ -627,3 +659,139 @@ button.photoItem{ cursor: zoom-in; }
   color: var(--muted);
 }
 .footerLinks a:hover{ color: var(--fg); }
+
+/* ===== responsive ===== */
+@media (max-width: 900px){
+  .nav .row{
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+  }
+  .navToggle{
+    display:inline-flex;
+    margin-left: auto;
+  }
+  .nav .links{
+    display:none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    z-index: 30;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: rgba(11,11,15,.96);
+    box-shadow: 0 20px 50px rgba(0,0,0,.45);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .nav.open .links{
+    display:flex;
+  }
+  .nav a{
+    display:block;
+    width: 100%;
+    letter-spacing: .14em;
+    font-size: 11px;
+    padding: 9px 10px;
+    border-radius: 10px;
+  }
+  .nav .links a:hover{
+    background: rgba(255,47,179,.10);
+  }
+}
+
+@media (max-width: 640px){
+  :root{
+    --pad: 14px;
+  }
+
+  .section{
+    padding: clamp(32px, 9vw, 54px) 0;
+  }
+
+  .heroFull img{
+    height: min(74vh, 560px);
+  }
+  .heroFull .overlay{
+    padding: 16px;
+    gap: 10px;
+  }
+  .heroStack{
+    gap: 2px;
+    max-width: 100%;
+  }
+  .heroLine{
+    letter-spacing: .08em;
+    line-height: .92;
+  }
+  .heroLineTop{
+    font-size: clamp(18px, 6vw, 28px);
+  }
+  .heroLineMid{
+    font-size: clamp(28px, 9vw, 46px);
+  }
+  .heroLineBot{
+    font-size: clamp(36px, 12vw, 62px);
+  }
+
+  .badge{
+    padding: 8px 10px;
+    font-size: 10px;
+    letter-spacing: .14em;
+  }
+
+  .btn.big{
+    padding: 12px 14px;
+    letter-spacing: .12em;
+    font-size: 12px;
+  }
+
+  .musicTitle{
+    font-size: clamp(26px, 10vw, 38px);
+  }
+  .musicCopy{
+    font-size: 15px;
+  }
+  .musicPlayerWrap{
+    padding: 10px;
+  }
+  .galleryPlayerCard{
+    padding: 12px;
+  }
+  .galleryPlayerTitle{
+    font-size: 20px;
+  }
+
+  .stripItem{
+    width: clamp(150px, 56vw, 240px);
+    height: clamp(104px, 38vw, 170px);
+  }
+
+  .photoGrid{
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+  }
+  .photoItem{
+    border-radius: 14px;
+  }
+
+  .modal{
+    padding: 10px;
+  }
+  .modal .inner{
+    border-radius: 14px;
+  }
+  .modal header{
+    padding: 10px;
+  }
+  .modal header button{
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+}

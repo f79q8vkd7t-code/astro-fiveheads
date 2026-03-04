@@ -11,7 +11,19 @@ const items = [
 <nav class="nav" id="topnav">
   <div class="container row">
     <a class="logo" href="/">{site.bandName}</a>
-    <div class="links">
+    <button
+      type="button"
+      class="navToggle"
+      id="navToggle"
+      aria-label="Menü öffnen"
+      aria-expanded="false"
+      aria-controls="navLinks"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="links" id="navLinks">
       {items.map((i) => (
         <a href={i.href}>{i.label}</a>
       ))}
@@ -23,13 +35,53 @@ const items = [
   <script is:inline>
     (function(){
       const nav = document.getElementById("topnav");
+      const toggle = document.getElementById("navToggle");
+      const links = document.getElementById("navLinks");
       if(!nav) return;
       const onScroll = () => {
         if (window.scrollY > 10) nav.classList.add("scrolled");
         else nav.classList.remove("scrolled");
       };
+      const setExpanded = (isOpen) => {
+        if (!toggle) return;
+        toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        toggle.setAttribute("aria-label", isOpen ? "Menü schließen" : "Menü öffnen");
+      };
+      const closeMenu = () => {
+        nav.classList.remove("open");
+        setExpanded(false);
+      };
+      const toggleMenu = () => {
+        const willOpen = !nav.classList.contains("open");
+        nav.classList.toggle("open", willOpen);
+        setExpanded(willOpen);
+      };
       onScroll();
       window.addEventListener("scroll", onScroll, { passive: true });
+
+      if (toggle) {
+        toggle.addEventListener("click", toggleMenu);
+      }
+
+      if (links) {
+        links.addEventListener("click", (e) => {
+          const target = e.target;
+          if (!(target instanceof Element)) return;
+          if (target.closest("a")) closeMenu();
+        });
+      }
+
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 900) closeMenu();
+      });
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeMenu();
+      });
+      document.addEventListener("click", (e) => {
+        const target = e.target;
+        if (!(target instanceof Element)) return;
+        if (!nav.contains(target)) closeMenu();
+      });
     })();
   </script>
 </nav>

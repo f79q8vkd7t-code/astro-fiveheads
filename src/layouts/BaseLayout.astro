@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import { site } from "../config/site";
+import { ClientRouter } from "astro:transitions";
 const { title = site.bandName, description = site.description } = Astro.props;
 ---
 <!doctype html>
@@ -19,6 +20,7 @@ const { title = site.bandName, description = site.description } = Astro.props;
     <meta property="og:image" content="/og.svg" />
 
     <title>{title}</title>
+    <ClientRouter />
   </head>
   <body>
     <div class="grain" aria-hidden="true"></div>
