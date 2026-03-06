@@ -34,54 +34,73 @@ const items = [
 
   <script is:inline>
     (function(){
-      const nav = document.getElementById("topnav");
-      const toggle = document.getElementById("navToggle");
-      const links = document.getElementById("navLinks");
-      if(!nav) return;
-      const onScroll = () => {
-        if (window.scrollY > 10) nav.classList.add("scrolled");
-        else nav.classList.remove("scrolled");
-      };
-      const setExpanded = (isOpen) => {
-        if (!toggle) return;
-        toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-        toggle.setAttribute("aria-label", isOpen ? "Menü schließen" : "Menü öffnen");
-      };
-      const closeMenu = () => {
-        nav.classList.remove("open");
-        setExpanded(false);
-      };
-      const toggleMenu = () => {
-        const willOpen = !nav.classList.contains("open");
-        nav.classList.toggle("open", willOpen);
-        setExpanded(willOpen);
-      };
-      onScroll();
-      window.addEventListener("scroll", onScroll, { passive: true });
+      function initNav() {
+        const nav = document.getElementById("topnav");
+        const toggle = document.getElementById("navToggle");
+        const links = document.getElementById("navLinks");
+        if (!nav) return;
 
-      if (toggle) {
-        toggle.addEventListener("click", toggleMenu);
-      }
+        const previousCleanup = window.__fiveheadsNavCleanup;
+        if (typeof previousCleanup === "function") previousCleanup();
+        const cleanups = [];
+        const on = (target, type, handler, options) => {
+          target.addEventListener(type, handler, options);
+          cleanups.push(() => target.removeEventListener(type, handler, options));
+        };
 
-      if (links) {
-        links.addEventListener("click", (e) => {
+        const onScroll = () => {
+          if (window.scrollY > 10) nav.classList.add("scrolled");
+          else nav.classList.remove("scrolled");
+        };
+        const setExpanded = (isOpen) => {
+          if (!toggle) return;
+          toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+          toggle.setAttribute("aria-label", isOpen ? "Menü schließen" : "Menü öffnen");
+        };
+        const closeMenu = () => {
+          nav.classList.remove("open");
+          setExpanded(false);
+        };
+        const toggleMenu = () => {
+          const willOpen = !nav.classList.contains("open");
+          nav.classList.toggle("open", willOpen);
+          setExpanded(willOpen);
+        };
+
+        onScroll();
+        on(window, "scroll", onScroll, { passive: true });
+
+        if (toggle) {
+          on(toggle, "click", toggleMenu);
+        }
+
+        if (links) {
+          on(links, "click", (e) => {
+            const target = e.target;
+            if (!(target instanceof Element)) return;
+            if (target.closest("a")) closeMenu();
+          });
+        }
+
+        on(window, "resize", () => {
+          if (window.innerWidth > 900) closeMenu();
+        });
+        on(window, "keydown", (e) => {
+          if (e.key === "Escape") closeMenu();
+        });
+        on(document, "click", (e) => {
           const target = e.target;
           if (!(target instanceof Element)) return;
-          if (target.closest("a")) closeMenu();
+          if (!nav.contains(target)) closeMenu();
         });
+
+        window.__fiveheadsNavCleanup = () => {
+          for (const cleanup of cleanups) cleanup();
+        };
       }
 
-      window.addEventListener("resize", () => {
-        if (window.innerWidth > 900) closeMenu();
-      });
-      window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeMenu();
-      });
-      document.addEventListener("click", (e) => {
-        const target = e.target;
-        if (!(target instanceof Element)) return;
-        if (!nav.contains(target)) closeMenu();
-      });
+      initNav();
+      document.addEventListener("astro:page-load", initNav);
     })();
   </script>
 </nav>

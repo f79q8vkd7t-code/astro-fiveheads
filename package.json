@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "dev:lan": "astro dev --host 0.0.0.0 --port 4321"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.0",
