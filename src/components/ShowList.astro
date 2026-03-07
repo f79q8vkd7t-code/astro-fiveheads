@@ -11,24 +11,71 @@ const sorted = [...shows].sort((a, b) => a.date.localeCompare(b.date));
 <div class="card" style="padding:18px;">
   <div class="small" style="margin-bottom:10px;">Next shows</div>
 
-  <div style="display:grid; gap:10px;">
+  <div class="showListRows">
     {sorted.map((s) => (
-      <div style="display:grid; grid-template-columns: 110px 1fr auto; gap:12px; align-items:center; border-top:1px solid var(--line); padding-top:10px;">
-        <div class="small" style="letter-spacing:.18em; color:var(--fg); opacity:.9;">{fmt(s.date)}</div>
+      <div class="showRow">
+        <div class="small showDate">{fmt(s.date)}</div>
 
-        <div>
-          <div style="font-weight:700; letter-spacing:-.01em;">{s.city} — {s.venue}</div>
+        <div class="showMain">
+          <div class="showTitle">{s.city} — {s.venue}</div>
           <div class="small" style="margin-top:4px; opacity:.8;">
             {s.note ? s.note : ""}{s.country ? (s.note ? " · " : "") + s.country : ""}
           </div>
         </div>
 
         {s.ticketUrl ? (
-          <a class="btn" href={s.ticketUrl} target="_blank" rel="noopener">Tickets</a>
+          <a class="btn showAction" href={s.ticketUrl} target="_blank" rel="noopener">Tickets</a>
         ) : (
-          <span class="small">Info</span>
+          <span class="small showAction">Info</span>
         )}
       </div>
     ))}
   </div>
 </div>
+
+<style>
+  .showListRows{
+    display:grid;
+    gap:10px;
+  }
+
+  .showRow{
+    display:grid;
+    grid-template-columns: minmax(88px, 110px) minmax(0, 1fr) auto;
+    gap:12px;
+    align-items:center;
+    border-top:1px solid var(--line);
+    padding-top:10px;
+  }
+
+  .showDate{
+    letter-spacing:.18em;
+    color:var(--fg);
+    opacity:.9;
+  }
+
+  .showMain{
+    min-width:0;
+  }
+
+  .showTitle{
+    font-weight:700;
+    letter-spacing:-.01em;
+    overflow-wrap:anywhere;
+  }
+
+  .showAction{
+    white-space:nowrap;
+  }
+
+  @media (max-width: 640px){
+    .showRow{
+      grid-template-columns: 1fr;
+      gap:6px;
+    }
+
+    .showAction{
+      justify-self:start;
+    }
+  }
+</style>

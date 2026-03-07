@@ -404,6 +404,11 @@ a:hover{ opacity:.92; }
   border-color: rgba(255,47,179,.55);
   box-shadow: 0 0 0 8px rgba(255,47,179,.10);
 }
+.nextShowBadge{
+  max-width: min(92vw, 520px);
+  white-space: normal;
+  line-height: 1.25;
+}
 .heroActions{
   display:flex;
   gap:12px;
@@ -773,6 +778,10 @@ button.photoItem{ cursor: zoom-in; }
     padding: 8px 10px;
     font-size: 10px;
     letter-spacing: .14em;
+  }
+  .nextShowBadge{
+    max-width: 100%;
+    letter-spacing: .1em;
   }
 
   .btn.big{
