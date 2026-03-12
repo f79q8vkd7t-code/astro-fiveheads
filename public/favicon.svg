@@ -1,4 +1,44 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Fiveheads favicon">
   <rect width="64" height="64" rx="14" fill="#07060c"/>
-  <path d="M16 40V16h8v16h16V16h8v24h-8v-8H24v8z" fill="#ff2fb3"/>
+
+  <!-- simplified headstock silhouette for small favicon sizes -->
+  <path
+    d="M25 56V41c0-2-1-3-2-4l-1-1c-2-2-2-5 0-7l11-19c2-3 5-4 9-4 6 0 10 5 10 11 0 4-2 8-6 10l-1 1c-2 1-3 3-3 5v23z"
+    fill="none"
+    stroke="#ff11b7"
+    stroke-width="4"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M25 56V41c0-2-1-3-2-4l-1-1c-2-2-2-5 0-7l11-19c2-3 5-4 9-4 6 0 10 5 10 11 0 4-2 8-6 10l-1 1c-2 1-3 3-3 5v23z"
+    fill="#111028"
+    stroke="#ffffff"
+    stroke-width="1.6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <g fill="#ff11b7" stroke="#111028" stroke-width="1">
+    <circle cx="23" cy="16" r="2.8"/>
+    <circle cx="21.5" cy="21.5" r="2.8"/>
+    <circle cx="20.5" cy="27" r="2.8"/>
+    <circle cx="19.5" cy="32.5" r="2.8"/>
+    <circle cx="18.5" cy="38" r="2.8"/>
+  </g>
+  <g fill="#fff">
+    <circle cx="23" cy="16" r="1.3"/>
+    <circle cx="21.5" cy="21.5" r="1.3"/>
+    <circle cx="20.5" cy="27" r="1.3"/>
+    <circle cx="19.5" cy="32.5" r="1.3"/>
+    <circle cx="18.5" cy="38" r="1.3"/>
+  </g>
+
+  <g stroke="#fff" stroke-width="1.1" stroke-linecap="round" opacity="0.95">
+    <line x1="30.2" y1="26.5" x2="30.2" y2="54"/>
+    <line x1="32.6" y1="24.3" x2="32.6" y2="54"/>
+    <line x1="35" y1="22.2" x2="35" y2="54"/>
+    <line x1="37.4" y1="20" x2="37.4" y2="54"/>
+    <line x1="39.8" y1="17.8" x2="39.8" y2="54"/>
+  </g>
 </svg>
