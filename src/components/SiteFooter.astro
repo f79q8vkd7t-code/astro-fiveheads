@@ -16,6 +16,11 @@ const showPlayer = Astro.url.pathname !== "/";
       </div>
     </div>
 
+    <div class="footerSocial">
+      <a href={site.links.instagram} target="_blank" rel="me noopener">Instagram</a>
+      <a href={site.links.tiktok} target="_blank" rel="me noopener">TikTok</a>
+    </div>
+
     {showPlayer && (
       <div class="footerPlayer">
         <div class="small">Player</div>

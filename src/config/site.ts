@@ -1,9 +1,10 @@
 export const site = {
+  siteUrl: "https://five-heads.de/",
   bandName: "FIVEHEADS",
   subtitle: "",
   links: {
-    instagram: "https://www.instagram.com/official_fiveheads?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
-    tiktok: "https://www.tiktok.com/@official_fiveheads?is_from_webapp=1&sender_device=pc"
+    instagram: "https://www.instagram.com/official_fiveheads/",
+    tiktok: "https://www.tiktok.com/@official_fiveheads"
   },
   contactEmail: "backendteamfiveheads@gmail.com",
   description:

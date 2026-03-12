@@ -734,6 +734,19 @@ button.photoItem{ cursor: zoom-in; }
   color: var(--muted);
 }
 .footerLinks a:hover{ color: var(--fg); }
+.footerSocial{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+  margin-top: 10px;
+}
+.footerSocial a{
+  font-size:12px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color: var(--muted);
+}
+.footerSocial a:hover{ color: var(--fg); }
 .footerPlayer{
   margin-top: 16px;
   width: min(440px, 100%);
