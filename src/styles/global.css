@@ -219,6 +219,9 @@ main > .section > .container{
 .modal.is-open{ display:grid; }
 .modal .inner{
   width: min(1100px, 100%);
+  max-height: 92vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
   border-radius: 20px;
   overflow:hidden;
   border:1px solid var(--line);
@@ -226,11 +229,15 @@ main > .section > .container{
   box-shadow: 0 30px 90px rgba(0,0,0,.6);
 }
 .modal header{
+  position: sticky;
+  top: 0;
+  z-index: 2;
   display:flex;
   justify-content: space-between;
   align-items:center;
   padding: 10px 12px;
   border-bottom:1px solid var(--line);
+  background: rgba(15,16,22,.98);
 }
 .modal header button{
   border:1px solid var(--line);
@@ -241,9 +248,13 @@ main > .section > .container{
   cursor:pointer;
 }
 .modal img{
-  width:100%;
+  width:auto;
+  max-width:100%;
+  max-height: calc(92vh - 56px);
   height:auto;
   display:block;
+  margin: 0 auto;
+  object-fit: contain;
 }
 
 /* nav */
@@ -859,6 +870,7 @@ button.photoItem{ cursor: zoom-in; }
     padding: 10px;
   }
   .modal .inner{
+    max-height: 88vh;
     border-radius: 14px;
   }
   .modal header{
@@ -867,5 +879,8 @@ button.photoItem{ cursor: zoom-in; }
   .modal header button{
     padding: 7px 10px;
     font-size: 12px;
+  }
+  .modal img{
+    max-height: calc(88vh - 52px);
   }
 }
