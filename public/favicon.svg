@@ -13,7 +13,7 @@
   <path
     d="M25 56V41c0-2-1-3-2-4l-1-1c-2-2-2-5 0-7l11-19c2-3 5-4 9-4 6 0 10 5 10 11 0 4-2 8-6 10l-1 1c-2 1-3 3-3 5v23z"
     fill="#111028"
-    stroke="#ffffff"
+    stroke="#ff11b7"
     stroke-width="1.6"
     stroke-linecap="round"
     stroke-linejoin="round"
@@ -26,7 +26,7 @@
     <circle cx="19.5" cy="32.5" r="2.8"/>
     <circle cx="18.5" cy="38" r="2.8"/>
   </g>
-  <g fill="#fff">
+  <g fill="#ff7bd8">
     <circle cx="23" cy="16" r="1.3"/>
     <circle cx="21.5" cy="21.5" r="1.3"/>
     <circle cx="20.5" cy="27" r="1.3"/>
@@ -34,7 +34,7 @@
     <circle cx="18.5" cy="38" r="1.3"/>
   </g>
 
-  <g stroke="#fff" stroke-width="1.1" stroke-linecap="round" opacity="0.95">
+  <g stroke="#ff11b7" stroke-width="1.1" stroke-linecap="round" opacity="0.95">
     <line x1="30.2" y1="26.5" x2="30.2" y2="54"/>
     <line x1="32.6" y1="24.3" x2="32.6" y2="54"/>
     <line x1="35" y1="22.2" x2="35" y2="54"/>
