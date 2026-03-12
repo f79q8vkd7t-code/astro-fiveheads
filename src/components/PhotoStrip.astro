@@ -12,16 +12,99 @@ const images = [
 ];
 ---
 <div class="strip" aria-label="Live Foto Streifen">
-  <div class="stripTrack">
+  <div class="stripTrack" id="stripTrack">
     {images.map((src) => (
-      <a href="/gallery" class="stripItem" title="Zur Galerie">
+      <button class="stripItem stripButton" type="button" data-full={src} aria-label="Foto vergrößern">
         <img src={src} alt="Live Foto" loading="lazy" />
-      </a>
+      </button>
     ))}
     {images.map((src) => (
-      <a href="/gallery" class="stripItem" title="Zur Galerie" aria-hidden="true" tabindex="-1">
+      <button class="stripItem stripButton" type="button" data-full={src} aria-hidden="true" tabindex="-1">
         <img src={src} alt="" loading="lazy" />
-      </a>
+      </button>
     ))}
   </div>
 </div>
+
+<dialog class="modal" id="stripModal">
+  <div class="inner">
+    <header>
+      <div class="small">Live Foto</div>
+      <button type="button" id="stripClose">Schließen</button>
+    </header>
+    <img id="stripModalImg" src="" alt="Live Foto groß" />
+  </div>
+</dialog>
+
+<script is:inline>
+  (function () {
+    function initStripModal() {
+      const stripTrack = document.getElementById("stripTrack");
+      const stripModal = document.getElementById("stripModal");
+      const stripModalImg = document.getElementById("stripModalImg");
+      const stripCloseBtn = document.getElementById("stripClose");
+      if (!stripTrack || !stripModal || !stripModalImg) return;
+
+      const previousCleanup = window.__fiveheadsStripCleanup;
+      if (typeof previousCleanup === "function") previousCleanup();
+      const cleanups = [];
+      const on = (target, type, handler) => {
+        target.addEventListener(type, handler);
+        cleanups.push(() => target.removeEventListener(type, handler));
+      };
+
+      function setStripModalOpen(isOpen) {
+        if (isOpen) {
+          stripModal.classList.add("is-open");
+          stripModal.setAttribute("open", "");
+          if (typeof stripModal.showModal === "function" && !stripModal.open) {
+            try { stripModal.showModal(); } catch (_) {}
+          }
+          document.body.style.overflow = "hidden";
+          return;
+        }
+        stripModal.classList.remove("is-open");
+        if (typeof stripModal.close === "function" && stripModal.open) {
+          try { stripModal.close(); } catch (_) {}
+        }
+        stripModal.removeAttribute("open");
+        document.body.style.overflow = "";
+      }
+
+      function openStripModal(src) {
+        if (!src) return;
+        stripModalImg.src = src;
+        setStripModalOpen(true);
+      }
+
+      function closeStripModal() {
+        setStripModalOpen(false);
+        stripModalImg.src = "";
+      }
+
+      on(stripTrack, "click", function (e) {
+        const target = e.target;
+        if (!(target instanceof Element)) return;
+        const btn = target.closest("button[data-full]");
+        if (!btn) return;
+        const src = btn.getAttribute("data-full");
+        if (src) openStripModal(src);
+      });
+
+      if (stripCloseBtn) on(stripCloseBtn, "click", closeStripModal);
+      on(stripModal, "click", function (e) {
+        if (e.target === stripModal) closeStripModal();
+      });
+      on(window, "keydown", function (e) {
+        if (e.key === "Escape") closeStripModal();
+      });
+
+      window.__fiveheadsStripCleanup = () => {
+        for (const cleanup of cleanups) cleanup();
+      };
+    }
+
+    initStripModal();
+    document.addEventListener("astro:page-load", initStripModal);
+  })();
+</script>

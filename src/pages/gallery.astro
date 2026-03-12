@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Nav from "../components/Nav.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 import { site } from "../config/site";
 
 const gallery = import.meta.glob("../assets/gallery/*.{jpg,jpeg,png,webp,avif}", { eager: true });
@@ -105,4 +106,5 @@ imgs.sort((a, b) => (b.src || "").localeCompare(a.src || ""));
       )}
     </div>
   </main>
+  <SiteFooter />
 </BaseLayout>
