@@ -734,6 +734,14 @@ button.photoItem{ cursor: zoom-in; }
   color: var(--muted);
 }
 .footerLinks a:hover{ color: var(--fg); }
+.footerPlayer{
+  margin-top: 16px;
+  width: min(440px, 100%);
+}
+.musicPlayerCompact{
+  padding: 8px;
+  border-radius: 12px;
+}
 
 /* ===== responsive ===== */
 @media (max-width: 900px){

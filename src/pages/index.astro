@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Nav from "../components/Nav.astro";
 import ShowList from "../components/ShowList.astro";
 import PhotoStrip from "../components/PhotoStrip.astro";
+import BandAudioPlayer from "../components/BandAudioPlayer.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import { site } from "../config/site";
 
@@ -81,20 +82,7 @@ const preview = imgs.slice(0, 12);
 
           <div class="hr"></div>
 
-          <div class="musicPlayerWrap">
-            <audio
-              id="band-audio"
-              transition:name="band-audio"
-              transition:persist
-              controls
-              preload="metadata"
-              style="width:100%;"
-            >
-              <source src="/audio/song.mp3" type="audio/mpeg" />
-              <source src="/audio/song.wav" type="audio/wav" />
-              Dein Browser unterstützt den Audio-Player nicht.
-            </audio>
-          </div>
+          <BandAudioPlayer />
 
           <div class="hr"></div>
 
@@ -133,62 +121,77 @@ const preview = imgs.slice(0, 12);
             </dialog>
 
             <script is:inline>
-              var homeGrid = document.getElementById("homeGrid");
-              var homeModal = document.getElementById("homeModal");
-              var homeModalImg = document.getElementById("homeModalImg");
-              var homeCloseBtn = document.getElementById("homeClose");
+              (function () {
+                function initHomeModal() {
+                  var homeGrid = document.getElementById("homeGrid");
+                  var homeModal = document.getElementById("homeModal");
+                  var homeModalImg = document.getElementById("homeModalImg");
+                  var homeCloseBtn = document.getElementById("homeClose");
+                  if (!homeGrid || !homeModal || !homeModalImg) return;
 
-              function setHomeModalOpen(isOpen) {
-                if (!homeModal) return;
-                if (isOpen) {
-                  homeModal.classList.add("is-open");
-                  homeModal.setAttribute("open", "");
-                  if (typeof homeModal.showModal === "function" && !homeModal.open) {
-                    try { homeModal.showModal(); } catch (_) {}
+                  var previousCleanup = window.__fiveheadsHomeGalleryCleanup;
+                  if (typeof previousCleanup === "function") previousCleanup();
+                  var cleanups = [];
+                  function on(target, type, handler) {
+                    target.addEventListener(type, handler);
+                    cleanups.push(function () { target.removeEventListener(type, handler); });
                   }
-                  document.body.style.overflow = "hidden";
-                  return;
+
+                  function setHomeModalOpen(isOpen) {
+                    if (isOpen) {
+                      homeModal.classList.add("is-open");
+                      homeModal.setAttribute("open", "");
+                      if (typeof homeModal.showModal === "function" && !homeModal.open) {
+                        try { homeModal.showModal(); } catch (_) {}
+                      }
+                      document.body.style.overflow = "hidden";
+                      return;
+                    }
+
+                    homeModal.classList.remove("is-open");
+                    if (typeof homeModal.close === "function" && homeModal.open) {
+                      try { homeModal.close(); } catch (_) {}
+                    }
+                    homeModal.removeAttribute("open");
+                    document.body.style.overflow = "";
+                  }
+
+                  function openHomeModal(src) {
+                    if (!src) return;
+                    homeModalImg.src = src;
+                    setHomeModalOpen(true);
+                  }
+
+                  function closeHomeModal() {
+                    setHomeModalOpen(false);
+                    homeModalImg.src = "";
+                  }
+
+                  on(homeGrid, "click", function (e) {
+                    var target = e.target;
+                    if (!(target instanceof Element)) return;
+                    var btn = target.closest("button[data-full]");
+                    if (!btn) return;
+                    var src = btn.getAttribute("data-full");
+                    if (src) openHomeModal(src);
+                  });
+
+                  if (homeCloseBtn) on(homeCloseBtn, "click", closeHomeModal);
+                  on(homeModal, "click", function (e) {
+                    if (e.target === homeModal) closeHomeModal();
+                  });
+                  on(window, "keydown", function (e) {
+                    if (e.key === "Escape") closeHomeModal();
+                  });
+
+                  window.__fiveheadsHomeGalleryCleanup = function () {
+                    for (var i = 0; i < cleanups.length; i++) cleanups[i]();
+                  };
                 }
 
-                homeModal.classList.remove("is-open");
-                if (typeof homeModal.close === "function" && homeModal.open) {
-                  try { homeModal.close(); } catch (_) {}
-                }
-                homeModal.removeAttribute("open");
-                document.body.style.overflow = "";
-              }
-
-              function openHomeModal(src){
-                if (!homeModalImg || !src) return;
-                homeModalImg.src = src;
-                setHomeModalOpen(true);
-              }
-
-              function closeHomeModal(){
-                setHomeModalOpen(false);
-                if (homeModalImg) homeModalImg.src = "";
-              }
-
-              if (homeGrid) {
-                homeGrid.addEventListener("click", function (e) {
-                  var target = e.target;
-                  if (!(target instanceof Element)) return;
-                  var btn = target.closest("button[data-full]");
-                  if (!btn) return;
-                  var src = btn.getAttribute("data-full");
-                  if (src) openHomeModal(src);
-                });
-              }
-
-              if (homeCloseBtn) homeCloseBtn.addEventListener("click", closeHomeModal);
-              if (homeModal) {
-                homeModal.addEventListener("click", function (e) {
-                  if (e.target === homeModal) closeHomeModal();
-                });
-              }
-              window.addEventListener("keydown", function (e) {
-                if (e.key === "Escape") closeHomeModal();
-              });
+                initHomeModal();
+                document.addEventListener("astro:page-load", initHomeModal);
+              })();
             </script>
           </>
         ) : (

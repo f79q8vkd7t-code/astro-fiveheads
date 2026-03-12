@@ -1,5 +1,8 @@
 ---
 import { site } from "../config/site";
+import BandAudioPlayer from "./BandAudioPlayer.astro";
+
+const showPlayer = Astro.url.pathname !== "/";
 ---
 <footer class="section" style="padding-top:0;">
   <div class="container">
@@ -12,5 +15,12 @@ import { site } from "../config/site";
         <a href="/datenschutz">Datenschutz</a>
       </div>
     </div>
+
+    {showPlayer && (
+      <div class="footerPlayer">
+        <div class="small">Player</div>
+        <BandAudioPlayer compact={true} />
+      </div>
+    )}
   </div>
 </footer>
