@@ -19,6 +19,8 @@ export const shows: Show[] = [
     date: "2026-03-28",
     city: "Bad Tölz",
     venue: "Kesselhaus",
-    country: "DE"
+    country: "DE",
+    note: "Gratis",
+    ticketUrl: "https://kesselhaus-madhouse.de"
   }
 ];

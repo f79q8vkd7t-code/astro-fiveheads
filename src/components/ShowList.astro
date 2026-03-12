@@ -24,7 +24,7 @@ const sorted = [...shows].sort((a, b) => a.date.localeCompare(b.date));
         </div>
 
         {s.ticketUrl ? (
-          <a class="btn showAction" href={s.ticketUrl} target="_blank" rel="noopener">Tickets</a>
+          <a class="btn showAction" href={s.ticketUrl} target="_blank" rel="noopener">Info</a>
         ) : (
           <span class="small showAction">Info</span>
         )}
