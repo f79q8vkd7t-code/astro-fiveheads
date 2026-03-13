@@ -70,11 +70,21 @@ const sorted = [...shows].sort((a, b) => a.date.localeCompare(b.date));
 
   @media (max-width: 640px){
     .showRow{
-      grid-template-columns: 1fr;
-      gap:6px;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap:6px 10px;
+    }
+
+    .showDate{
+      grid-column: 1 / -1;
+    }
+
+    .showMain{
+      grid-column: 1;
     }
 
     .showAction{
+      grid-column: 2;
+      align-self: start;
       justify-self:end;
     }
   }
