@@ -8,5 +8,5 @@ export const site = {
   },
   contactEmail: "backendteamfiveheads@gmail.com",
   description:
-    "FIVEHEADS — junge Rock/Punk/Indie Band. Offizielle Website mit Live-Terminen, Fotos und Kontakt."
+    "FIVEHEADS — junge Rock/Pop/Indie Band. Offizielle Website mit Live-Terminen, Fotos und Kontakt."
 };
