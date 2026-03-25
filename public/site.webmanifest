@@ -3,8 +3,18 @@
   "short_name": "FIVEHEADS",
   "icons": [
     {
+      "src": "/favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
       "src": "/favicon-192x192.png",
       "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-128x128.png",
+      "sizes": "128x128",
       "type": "image/png"
     },
     {
