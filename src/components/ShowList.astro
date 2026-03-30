@@ -11,26 +11,33 @@ const sorted = [...shows].sort((a, b) => a.date.localeCompare(b.date));
 <div class="card" style="padding:18px;">
   <div class="small" style="margin-bottom:10px;">Next shows</div>
 
-  <div class="showListRows">
-    {sorted.map((s) => (
-      <div class="showRow">
-        <div class="small showDate">{fmt(s.date)}</div>
+  {sorted.length ? (
+    <div class="showListRows">
+      {sorted.map((s) => (
+        <div class="showRow">
+          <div class="small showDate">{fmt(s.date)}</div>
 
-        <div class="showMain">
-          <div class="showTitle">{s.city} — {s.venue}</div>
-          <div class="small" style="margin-top:4px; opacity:.8;">
-            {s.note ? s.note : ""}{s.country ? (s.note ? " · " : "") + s.country : ""}
+          <div class="showMain">
+            <div class="showTitle">{s.city} — {s.venue}</div>
+            <div class="small" style="margin-top:4px; opacity:.8;">
+              {s.note ? s.note : ""}{s.country ? (s.note ? " · " : "") + s.country : ""}
+            </div>
           </div>
-        </div>
 
-        {s.ticketUrl ? (
-          <a class="btn showAction" href={s.ticketUrl} target="_blank" rel="noopener">Info</a>
-        ) : (
-          <span class="small showAction">Info</span>
-        )}
-      </div>
-    ))}
-  </div>
+          {s.ticketUrl ? (
+            <a class="btn showAction" href={s.ticketUrl} target="_blank" rel="noopener">Info</a>
+          ) : (
+            <span class="small showAction">Info</span>
+          )}
+        </div>
+      ))}
+    </div>
+  ) : (
+    <div class="showEmpty">
+      <div class="showTitle">Aktuell keine neuen Termine</div>
+      <div class="small" style="margin-top:6px; opacity:.8;">Neue Shows werden hier bekanntgegeben.</div>
+    </div>
+  )}
 </div>
 
 <style>
@@ -66,6 +73,11 @@ const sorted = [...shows].sort((a, b) => a.date.localeCompare(b.date));
 
   .showAction{
     white-space:nowrap;
+  }
+
+  .showEmpty{
+    border-top:1px solid var(--line);
+    padding-top:12px;
   }
 
   @media (max-width: 640px){

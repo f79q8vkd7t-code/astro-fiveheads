@@ -6,11 +6,17 @@ import PhotoStrip from "../components/PhotoStrip.astro";
 import BandAudioPlayer from "../components/BandAudioPlayer.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import { site } from "../config/site";
+import { shows } from "../data/shows";
 
 const gallery = import.meta.glob("../assets/gallery/*.{jpg,jpeg,png,webp,avif}", { eager: true });
 const imgs = Object.values(gallery).map((m) => m.default).filter(Boolean);
 imgs.sort((a, b) => (b.src || "").localeCompare(a.src || ""));
 const preview = imgs.slice(0, 12);
+const nextShow = [...shows].sort((a, b) => a.date.localeCompare(b.date))[0];
+const fmtShowDate = (iso) =>
+  new Intl.DateTimeFormat("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" }).format(
+    new Date(iso + "T00:00:00")
+  );
 ---
 <BaseLayout title={`${site.bandName}`}>
   <Nav />
@@ -26,8 +32,17 @@ const preview = imgs.slice(0, 12);
       </h1>
 
       <div class="heroBadges">
-        <span class="badge hot">Next show</span>
-        <span class="badge nextShowBadge">28.03.2026 · Kesselhaus Bad Tölz</span>
+        {nextShow ? (
+          <>
+            <span class="badge hot">Next show</span>
+            <span class="badge nextShowBadge">{fmtShowDate(nextShow.date)} · {nextShow.venue} {nextShow.city}</span>
+          </>
+        ) : (
+          <>
+            <span class="badge hot">Live update</span>
+            <span class="badge nextShowBadge">Keine neuen Termine aktuell</span>
+          </>
+        )}
       </div>
     </div>
   </header>
