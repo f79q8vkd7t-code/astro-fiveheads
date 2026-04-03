@@ -6,7 +6,7 @@ export const site = {
     instagram: "https://www.instagram.com/official_fiveheads/",
     tiktok: "https://www.tiktok.com/@official_fiveheads"
   },
-  contactEmail: "info@five-heads.de",
+  contactEmail: "booking@five-heads.de",
   description:
     "FIVEHEADS — junge Rock/Pop/Indie Band. Offizielle Website mit Live-Terminen, Fotos und Kontakt."
 };
