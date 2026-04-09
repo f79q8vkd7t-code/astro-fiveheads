@@ -13,6 +13,9 @@ const imgs = Object.values(gallery).map((m) => m.default).filter(Boolean);
 imgs.sort((a, b) => (b.src || "").localeCompare(a.src || ""));
 const preview = imgs.slice(0, 12);
 const nextShow = [...shows].sort((a, b) => a.date.localeCompare(b.date))[0];
+const genres = ["Rock", "Pop", "Indie"];
+const aboutText =
+  "Wir sind FIVEHEADS aus Bad Tölz und Umgebung und machen eigene Songs zwischen Rock, Pop und Indie. Beim Wettbewerb „Your Voice Your Choice“ haben wir den 2 Platz belegt und durften uns über den Preis der besten musikalischen Darbietung freuen.";
 const fmtShowDate = (iso) =>
   new Intl.DateTimeFormat("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" }).format(
     new Date(iso + "T00:00:00")
@@ -54,21 +57,139 @@ const fmtShowDate = (iso) =>
     <section id="about" class="section sectionAbout">
       <div class="container">
         <h2 class="h2">Über uns</h2>
-        <div class="card" style="padding:18px;">
-          <p class="p" style="max-width:72ch;">
-            Wir sind FIVEHEADS aus Bad Tölz und Umgebung und machen eigene Songs zwischen Rock, Pop und Indie.
-            Beim Wettbewerb „Your Voice Your Choice“ haben wir den 2 Platz belegt und durften uns über den Preis der
-            besten musikalischen Darbietung freuen.
-          </p>
+        <div class="card aboutCard">
+          <button
+            class="aboutFeatureButton"
+            type="button"
+            id="aboutOpen"
+            aria-haspopup="dialog"
+            aria-controls="aboutModal"
+            aria-label="Über uns öffnen"
+          >
+            <div class="aboutFeatureFrame">
+              <img src="/about-band.jpg" alt="FIVEHEADS Bandfoto" loading="lazy" />
+              <div class="aboutFeatureBadge">Found photo</div>
+            </div>
+            <div class="aboutFeatureMeta">
+              <div>
+                <div class="small">FIVEHEADS / Bad Tölz</div>
+                <div class="aboutFeatureTitle">Über uns öffnen</div>
+              </div>
+              <div class="aboutFeatureArrow" aria-hidden="true">↗</div>
+            </div>
+          </button>
 
-          <div class="hr"></div>
+          <div class="aboutCopy">
+            <div class="musicEyebrow">Band portrait</div>
+            <p class="p aboutCopyText">{aboutText}</p>
 
-          <div style="display:flex; gap:10px; flex-wrap:wrap;">
-            {["Rock", "Pop", "Indie"].map((t) => (
-              <span class="pill">{t}</span>
-            ))}
+            <div class="aboutPills">
+              {genres.map((t) => (
+                <span class="pill">{t}</span>
+              ))}
+            </div>
           </div>
         </div>
+
+        <dialog class="modal aboutModal" id="aboutModal">
+          <div class="inner">
+            <header>
+              <div class="small">Über uns</div>
+              <button type="button" id="aboutClose">Schließen</button>
+            </header>
+
+            <div class="aboutModalBody">
+              <div class="aboutModalMedia">
+                <img src="/about-band.jpg" alt="FIVEHEADS Bandfoto groß" loading="lazy" />
+              </div>
+
+              <div class="aboutModalPanel">
+                <div class="musicEyebrow">FIVEHEADS</div>
+                <h3 class="aboutModalTitle">Bandfoto, aber als Intro</h3>
+                <p class="p aboutModalCopy">{aboutText}</p>
+
+                <div class="aboutPills">
+                  {genres.map((t) => (
+                    <span class="pill">{t}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </dialog>
+
+        <script is:inline>
+          (function () {
+            function initAboutModal() {
+              var aboutOpen = document.getElementById("aboutOpen");
+              var aboutModal = document.getElementById("aboutModal");
+              var aboutClose = document.getElementById("aboutClose");
+              if (!aboutOpen || !aboutModal) return;
+
+              var previousCleanup = window.__fiveheadsAboutCleanup;
+              if (typeof previousCleanup === "function") previousCleanup();
+              var cleanups = [];
+              var hasAutoOpened = false;
+
+              function on(target, type, handler) {
+                target.addEventListener(type, handler);
+                cleanups.push(function () { target.removeEventListener(type, handler); });
+              }
+
+              function setAboutModalOpen(isOpen) {
+                if (isOpen) {
+                  aboutModal.classList.add("is-open");
+                  aboutModal.setAttribute("open", "");
+                  if (typeof aboutModal.showModal === "function" && !aboutModal.open) {
+                    try { aboutModal.showModal(); } catch (_) {}
+                  }
+                  document.body.style.overflow = "hidden";
+                  return;
+                }
+
+                aboutModal.classList.remove("is-open");
+                if (typeof aboutModal.close === "function" && aboutModal.open) {
+                  try { aboutModal.close(); } catch (_) {}
+                }
+                aboutModal.removeAttribute("open");
+                document.body.style.overflow = "";
+              }
+
+              function openAboutModal() {
+                setAboutModalOpen(true);
+              }
+
+              function closeAboutModal() {
+                setAboutModalOpen(false);
+              }
+
+              function maybeOpenFromHash() {
+                if (window.location.hash !== "#about" || hasAutoOpened) return;
+                hasAutoOpened = true;
+                window.setTimeout(openAboutModal, 140);
+              }
+
+              on(aboutOpen, "click", openAboutModal);
+              if (aboutClose) on(aboutClose, "click", closeAboutModal);
+              on(aboutModal, "click", function (e) {
+                if (e.target === aboutModal) closeAboutModal();
+              });
+              on(window, "keydown", function (e) {
+                if (e.key === "Escape") closeAboutModal();
+              });
+              on(window, "hashchange", maybeOpenFromHash);
+
+              maybeOpenFromHash();
+
+              window.__fiveheadsAboutCleanup = function () {
+                for (var i = 0; i < cleanups.length; i++) cleanups[i]();
+              };
+            }
+
+            initAboutModal();
+            document.addEventListener("astro:page-load", initAboutModal);
+          })();
+        </script>
       </div>
     </section>
 
