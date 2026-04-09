@@ -873,17 +873,17 @@ button.photoItem{ cursor: zoom-in; }
 
 .motion-ready .revealItem{
   opacity:0;
-  transform: translateY(26px) scale(.985);
-  filter: blur(8px);
+  transform: translateY(20px) scale(.988);
+  filter: blur(6px);
 }
 .motion-ready .revealItem.is-visible{
   opacity:1;
   transform:none;
   filter:none;
   transition:
-    opacity .72s ease,
-    transform .82s cubic-bezier(.22,1,.36,1),
-    filter .82s ease;
+    opacity .48s ease,
+    transform .58s cubic-bezier(.22,1,.36,1),
+    filter .58s ease;
   transition-delay: var(--reveal-delay, 0ms);
 }
 
