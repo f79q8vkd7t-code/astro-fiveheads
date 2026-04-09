@@ -78,7 +78,21 @@ const items = [
           on(links, "click", (e) => {
             const target = e.target;
             if (!(target instanceof Element)) return;
-            if (target.closest("a")) closeMenu();
+            const link = target.closest("a");
+            if (!link) return;
+
+            const href = link.getAttribute("href");
+            if (href === "/#about" && window.location.pathname === "/") {
+              e.preventDefault();
+              closeMenu();
+              if (window.location.hash !== "#about") {
+                window.history.pushState({}, "", "/#about");
+              }
+              window.dispatchEvent(new CustomEvent("fiveheads:open-about"));
+              return;
+            }
+
+            closeMenu();
           });
         }
 

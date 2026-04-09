@@ -57,30 +57,9 @@ const fmtShowDate = (iso) =>
     <section id="about" class="section sectionAbout">
       <div class="container">
         <h2 class="h2">Über uns</h2>
-        <div class="card aboutCard">
-          <button
-            class="aboutFeatureButton"
-            type="button"
-            id="aboutOpen"
-            aria-haspopup="dialog"
-            aria-controls="aboutModal"
-            aria-label="Über uns öffnen"
-          >
-            <div class="aboutFeatureFrame">
-              <img src="/about-band.jpg" alt="FIVEHEADS Bandfoto" loading="lazy" />
-              <div class="aboutFeatureBadge">Found photo</div>
-            </div>
-            <div class="aboutFeatureMeta">
-              <div>
-                <div class="small">FIVEHEADS / Bad Tölz</div>
-                <div class="aboutFeatureTitle">Über uns öffnen</div>
-              </div>
-              <div class="aboutFeatureArrow" aria-hidden="true">↗</div>
-            </div>
-          </button>
-
+        <div class="card aboutCard aboutCardTextOnly">
           <div class="aboutCopy">
-            <div class="musicEyebrow">Band portrait</div>
+            <div class="musicEyebrow">Über uns</div>
             <p class="p aboutCopyText">{aboutText}</p>
 
             <div class="aboutPills">
@@ -100,12 +79,12 @@ const fmtShowDate = (iso) =>
 
             <div class="aboutModalBody">
               <div class="aboutModalMedia">
-                <img src="/about-band.jpg" alt="FIVEHEADS Bandfoto groß" loading="lazy" />
+                <img src="/about-band.jpg" alt="FIVEHEADS Bandfoto" loading="lazy" />
               </div>
 
               <div class="aboutModalPanel">
                 <div class="musicEyebrow">FIVEHEADS</div>
-                <h3 class="aboutModalTitle">Bandfoto, aber als Intro</h3>
+                <h3 class="aboutModalTitle">FIVEHEADS aus Bad Tölz und Umgebung</h3>
                 <p class="p aboutModalCopy">{aboutText}</p>
 
                 <div class="aboutPills">
@@ -121,10 +100,9 @@ const fmtShowDate = (iso) =>
         <script is:inline>
           (function () {
             function initAboutModal() {
-              var aboutOpen = document.getElementById("aboutOpen");
               var aboutModal = document.getElementById("aboutModal");
               var aboutClose = document.getElementById("aboutClose");
-              if (!aboutOpen || !aboutModal) return;
+              if (!aboutModal) return;
 
               var previousCleanup = window.__fiveheadsAboutCleanup;
               if (typeof previousCleanup === "function") previousCleanup();
@@ -169,7 +147,7 @@ const fmtShowDate = (iso) =>
                 window.setTimeout(openAboutModal, 140);
               }
 
-              on(aboutOpen, "click", openAboutModal);
+              on(window, "fiveheads:open-about", openAboutModal);
               if (aboutClose) on(aboutClose, "click", closeAboutModal);
               on(aboutModal, "click", function (e) {
                 if (e.target === aboutModal) closeAboutModal();
