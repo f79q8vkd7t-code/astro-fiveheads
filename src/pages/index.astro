@@ -57,7 +57,7 @@ const fmtShowDate = (iso) =>
     <section id="about" class="section sectionAbout">
       <div class="container">
         <h2 class="h2">Über uns</h2>
-        <div class="card aboutCard aboutCardTextOnly">
+        <div class="card aboutCard">
           <div class="aboutCopy">
             <div class="musicEyebrow">Über uns</div>
             <p class="p aboutCopyText">{aboutText}</p>
@@ -69,105 +69,6 @@ const fmtShowDate = (iso) =>
             </div>
           </div>
         </div>
-
-        <dialog class="modal aboutModal" id="aboutModal">
-          <div class="inner">
-            <header>
-              <div class="small">Über uns</div>
-              <button type="button" id="aboutClose">Schließen</button>
-            </header>
-
-            <div class="aboutModalBody">
-              <div class="aboutModalMedia">
-                <img src="/about-band.jpg" alt="FIVEHEADS Bandfoto" loading="lazy" />
-              </div>
-
-              <div class="aboutModalPanel">
-                <div class="musicEyebrow">FIVEHEADS</div>
-                <h3 class="aboutModalTitle">FIVEHEADS aus Bad Tölz und Umgebung</h3>
-                <p class="p aboutModalCopy">{aboutText}</p>
-
-                <div class="aboutPills">
-                  {genres.map((t) => (
-                    <span class="pill">{t}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </dialog>
-
-        <script is:inline>
-          (function () {
-            function initAboutModal() {
-              var aboutModal = document.getElementById("aboutModal");
-              var aboutClose = document.getElementById("aboutClose");
-              if (!aboutModal) return;
-
-              var previousCleanup = window.__fiveheadsAboutCleanup;
-              if (typeof previousCleanup === "function") previousCleanup();
-              var cleanups = [];
-              var hasAutoOpened = false;
-
-              function on(target, type, handler) {
-                target.addEventListener(type, handler);
-                cleanups.push(function () { target.removeEventListener(type, handler); });
-              }
-
-              function setAboutModalOpen(isOpen) {
-                if (isOpen) {
-                  aboutModal.classList.add("is-open");
-                  aboutModal.setAttribute("open", "");
-                  if (typeof aboutModal.showModal === "function" && !aboutModal.open) {
-                    try { aboutModal.showModal(); } catch (_) {}
-                  }
-                  document.body.style.overflow = "hidden";
-                  return;
-                }
-
-                aboutModal.classList.remove("is-open");
-                if (typeof aboutModal.close === "function" && aboutModal.open) {
-                  try { aboutModal.close(); } catch (_) {}
-                }
-                aboutModal.removeAttribute("open");
-                document.body.style.overflow = "";
-              }
-
-              function openAboutModal() {
-                setAboutModalOpen(true);
-              }
-
-              function closeAboutModal() {
-                setAboutModalOpen(false);
-              }
-
-              function maybeOpenFromHash() {
-                if (window.location.hash !== "#about" || hasAutoOpened) return;
-                hasAutoOpened = true;
-                window.setTimeout(openAboutModal, 140);
-              }
-
-              on(window, "fiveheads:open-about", openAboutModal);
-              if (aboutClose) on(aboutClose, "click", closeAboutModal);
-              on(aboutModal, "click", function (e) {
-                if (e.target === aboutModal) closeAboutModal();
-              });
-              on(window, "keydown", function (e) {
-                if (e.key === "Escape") closeAboutModal();
-              });
-              on(window, "hashchange", maybeOpenFromHash);
-
-              maybeOpenFromHash();
-
-              window.__fiveheadsAboutCleanup = function () {
-                for (var i = 0; i < cleanups.length; i++) cleanups[i]();
-              };
-            }
-
-            initAboutModal();
-            document.addEventListener("astro:page-load", initAboutModal);
-          })();
-        </script>
       </div>
     </section>
 
