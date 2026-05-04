@@ -898,8 +898,8 @@ main > .section:not([id])::before{
 }
 .releaseHeroCard{
   display:grid;
-  grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
-  gap: clamp(20px, 3vw, 34px);
+  grid-template-columns: minmax(120px, 168px) minmax(0, 1fr);
+  gap: clamp(16px, 2.4vw, 26px);
   padding: clamp(18px, 3vw, 28px);
   align-items:start;
   background:
@@ -909,12 +909,21 @@ main > .section:not([id])::before{
 }
 .releaseVisual{
   position:relative;
-  width: min(100%, 240px);
+  width: min(100%, 168px);
   justify-self:center;
 }
-.releaseVisual img,
+.releaseVisual img{
+  width:100%;
+  max-height: 168px;
+  display:block;
+  object-fit: contain;
+  border-radius: 22px;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow: 0 28px 80px rgba(0,0,0,.46);
+}
 .singlePageCover img{
   width:100%;
+  max-height: 220px;
   display:block;
   object-fit: contain;
   border-radius: 22px;
@@ -1002,8 +1011,8 @@ main > .section:not([id])::before{
 }
 .singlePageHero{
   display:grid;
-  grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
-  gap: clamp(22px, 3vw, 40px);
+  grid-template-columns: minmax(0, 1fr) minmax(150px, 220px);
+  gap: clamp(18px, 2.6vw, 28px);
   align-items:start;
 }
 .singlePageCopy{
@@ -1011,7 +1020,7 @@ main > .section:not([id])::before{
   gap:16px;
 }
 .singlePageCover{
-  width: min(100%, 300px);
+  width: min(100%, 220px);
   justify-self:end;
 }
 .singlePageGrid{
@@ -1197,7 +1206,7 @@ button.photoItem{ cursor: zoom-in; }
     grid-template-columns: 1fr;
   }
   .releaseVisual{
-    width: min(100%, 280px);
+    width: min(100%, 180px);
   }
   .releaseVisual,
   .singlePageCover{
@@ -1280,7 +1289,7 @@ button.photoItem{ cursor: zoom-in; }
     padding: 16px;
   }
   .singlePageCover{
-    width: min(100%, 260px);
+    width: min(100%, 180px);
   }
   .releaseTitle,
   .singlePageTitle{
