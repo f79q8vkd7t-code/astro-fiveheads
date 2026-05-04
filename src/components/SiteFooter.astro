@@ -3,10 +3,13 @@ import { site } from "../config/site";
 import BandAudioPlayer from "./BandAudioPlayer.astro";
 
 const showPlayer = Astro.url.pathname !== "/";
+const note = Astro.props.note;
 ---
 <footer class="section" style="padding-top:0;">
   <div class="container">
     <div class="hr"></div>
+
+    {note && <div class="singleFooterNote">{note}</div>}
 
     <div class="footerRow">
       <div class="small">© {new Date().getFullYear()} {site.bandName}</div>
