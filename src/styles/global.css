@@ -898,10 +898,10 @@ main > .section:not([id])::before{
 }
 .releaseHeroCard{
   display:grid;
-  grid-template-columns: minmax(220px, 320px) minmax(0, 1fr) minmax(280px, 360px);
+  grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
   gap: clamp(20px, 3vw, 34px);
   padding: clamp(18px, 3vw, 28px);
-  align-items:center;
+  align-items:start;
   background:
     radial-gradient(620px 300px at 6% 4%, rgba(255,47,179,.16), transparent 56%),
     radial-gradient(540px 320px at 98% 98%, rgba(72,108,255,.14), transparent 58%),
@@ -909,11 +909,14 @@ main > .section:not([id])::before{
 }
 .releaseVisual{
   position:relative;
+  width: min(100%, 240px);
+  justify-self:center;
 }
 .releaseVisual img,
 .singlePageCover img{
   width:100%;
   display:block;
+  object-fit: contain;
   border-radius: 22px;
   border:1px solid rgba(255,255,255,.12);
   box-shadow: 0 28px 80px rgba(0,0,0,.46);
@@ -936,8 +939,8 @@ main > .section:not([id])::before{
 .releaseTitle,
 .singlePageTitle{
   margin:0;
-  font-size: clamp(34px, 5.2vw, 78px);
-  line-height: .9;
+  font-size: clamp(32px, 4.5vw, 64px);
+  line-height: .94;
   letter-spacing: -.03em;
   text-wrap: balance;
 }
@@ -994,15 +997,22 @@ main > .section:not([id])::before{
     radial-gradient(420px 220px at 0% 0%, rgba(255,47,179,.12), transparent 58%),
     rgba(255,255,255,.03);
 }
+.releaseEmbedCard{
+  grid-column: 1 / -1;
+}
 .singlePageHero{
   display:grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(260px, 420px);
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
   gap: clamp(22px, 3vw, 40px);
-  align-items:center;
+  align-items:start;
 }
 .singlePageCopy{
   display:grid;
   gap:16px;
+}
+.singlePageCover{
+  width: min(100%, 300px);
+  justify-self:end;
 }
 .singlePageGrid{
   display:grid;
@@ -1187,11 +1197,12 @@ button.photoItem{ cursor: zoom-in; }
     grid-template-columns: 1fr;
   }
   .releaseVisual{
-    max-width: 360px;
+    width: min(100%, 280px);
   }
   .releaseVisual,
   .singlePageCover{
     margin: 0 auto;
+    justify-self:center;
   }
   .aboutCard{
     grid-template-columns: 1fr;
@@ -1267,6 +1278,9 @@ button.photoItem{ cursor: zoom-in; }
   .singlePagePlayerCard,
   .singlePageInfoCard{
     padding: 16px;
+  }
+  .singlePageCover{
+    width: min(100%, 260px);
   }
   .releaseTitle,
   .singlePageTitle{
