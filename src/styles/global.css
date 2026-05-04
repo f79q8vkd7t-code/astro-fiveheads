@@ -885,6 +885,154 @@ main > .section:not([id])::before{
   color: var(--fg);
 }
 
+.sectionRelease::before{
+  background:
+    radial-gradient(1180px 620px at 12% 16%, rgba(255,47,179,.18), transparent 58%),
+    radial-gradient(1120px 620px at 88% 84%, rgba(72,108,255,.14), transparent 58%),
+    linear-gradient(180deg, rgba(24,18,30,.56), rgba(10,9,16,.10) 28%, rgba(16,13,24,.42) 100%);
+}
+.sectionRelease::after{
+  background:
+    radial-gradient(860px 320px at 12% 20%, rgba(255,47,179,.20), transparent 62%),
+    radial-gradient(860px 320px at 88% 82%, rgba(72,108,255,.16), transparent 62%);
+}
+.releaseHeroCard{
+  display:grid;
+  grid-template-columns: minmax(220px, 320px) minmax(0, 1fr) minmax(280px, 360px);
+  gap: clamp(20px, 3vw, 34px);
+  padding: clamp(18px, 3vw, 28px);
+  align-items:center;
+  background:
+    radial-gradient(620px 300px at 6% 4%, rgba(255,47,179,.16), transparent 56%),
+    radial-gradient(540px 320px at 98% 98%, rgba(72,108,255,.14), transparent 58%),
+    rgba(255,255,255,.03);
+}
+.releaseVisual{
+  position:relative;
+}
+.releaseVisual img,
+.singlePageCover img{
+  width:100%;
+  display:block;
+  border-radius: 22px;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow: 0 28px 80px rgba(0,0,0,.46);
+}
+.releaseContent{
+  display:grid;
+  gap: 16px;
+}
+.releaseKick{
+  width: fit-content;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border:1px solid rgba(255,47,179,.45);
+  background: rgba(255,47,179,.14);
+  font-size: 11px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: rgba(246,244,255,.9);
+}
+.releaseTitle,
+.singlePageTitle{
+  margin:0;
+  font-size: clamp(34px, 5.2vw, 78px);
+  line-height: .9;
+  letter-spacing: -.03em;
+  text-wrap: balance;
+}
+.releaseLead{
+  max-width: 56ch;
+  font-size: clamp(18px, 1.8vw, 22px);
+  line-height: 1.45;
+}
+.releaseBody{
+  max-width: 62ch;
+  font-size: clamp(15px, 1.3vw, 18px);
+  line-height: 1.65;
+}
+.releaseMeta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.releaseMetaPill{
+  display:inline-flex;
+  align-items:center;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.04);
+  font-size: 11px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(246,244,255,.82);
+}
+.releaseActions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+}
+.releaseUtility{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  flex-wrap:wrap;
+}
+.releaseDetailLink{
+  font-size: 12px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(246,244,255,.82);
+}
+.releaseEmbedCard,
+.singlePagePlayerCard,
+.singlePageInfoCard{
+  padding: 18px;
+  background:
+    radial-gradient(420px 220px at 0% 0%, rgba(255,47,179,.12), transparent 58%),
+    rgba(255,255,255,.03);
+}
+.singlePageHero{
+  display:grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(260px, 420px);
+  gap: clamp(22px, 3vw, 40px);
+  align-items:center;
+}
+.singlePageCopy{
+  display:grid;
+  gap:16px;
+}
+.singlePageGrid{
+  display:grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+  gap: 18px;
+  margin-top: 22px;
+}
+.singleInfoList{
+  display:grid;
+  gap: 14px;
+  margin-top: 16px;
+}
+.singleInfoRow{
+  display:grid;
+  gap: 6px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.pageSingle::before{
+  background:
+    radial-gradient(1320px 820px at 12% 16%, rgba(255,47,179,.18), transparent 58%),
+    radial-gradient(1240px 820px at 88% 84%, rgba(72,108,255,.16), transparent 56%),
+    linear-gradient(180deg, rgba(22,16,30,.56), rgba(10,9,16,.12) 24%, rgba(16,13,24,.46) 100%);
+}
+.pageSingle::after{
+  background:
+    radial-gradient(980px 360px at 12% 20%, rgba(255,47,179,.20), transparent 62%),
+    radial-gradient(980px 360px at 88% 84%, rgba(72,108,255,.18), transparent 62%);
+}
+
 /* photo grid without gaps */
 .photoGrid{
   display:grid;
@@ -1033,6 +1181,18 @@ button.photoItem{ cursor: zoom-in; }
 
 /* ===== responsive ===== */
 @media (max-width: 900px){
+  .releaseHeroCard,
+  .singlePageHero,
+  .singlePageGrid{
+    grid-template-columns: 1fr;
+  }
+  .releaseVisual{
+    max-width: 360px;
+  }
+  .releaseVisual,
+  .singlePageCover{
+    margin: 0 auto;
+  }
   .aboutCard{
     grid-template-columns: 1fr;
   }
@@ -1102,6 +1262,31 @@ button.photoItem{ cursor: zoom-in; }
   .aboutCard{
     gap: 18px;
     padding: 16px;
+  }
+  .releaseHeroCard,
+  .singlePagePlayerCard,
+  .singlePageInfoCard{
+    padding: 16px;
+  }
+  .releaseTitle,
+  .singlePageTitle{
+    font-size: clamp(28px, 11vw, 48px);
+  }
+  .releaseLead{
+    font-size: 17px;
+  }
+  .releaseBody{
+    font-size: 15px;
+  }
+  .releaseActions{
+    gap: 10px;
+  }
+  .releaseActions .btn{
+    width: 100%;
+    justify-content: center;
+  }
+  .releaseUtility{
+    align-items:flex-start;
   }
   .aboutCopyText{
     font-size: 16px;

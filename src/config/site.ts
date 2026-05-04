@@ -8,5 +8,5 @@ export const site = {
   },
   contactEmail: "booking@five-heads.de",
   description:
-    "FIVEHEADS — junge Rock/Pop/Indie Band. Offizielle Website mit Live-Terminen, Fotos und Kontakt."
+    "FIVEHEADS — junge Rock/Pop/Indie Band. Offizielle Website mit neuer Single Lauter Mal Leiser, Live-Terminen, Fotos und Kontakt."
 };

@@ -7,6 +7,7 @@ import BandAudioPlayer from "../components/BandAudioPlayer.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import { site } from "../config/site";
 import { shows } from "../data/shows";
+import { currentSingle } from "../data/releases";
 
 const gallery = import.meta.glob("../assets/gallery/*.{jpg,jpeg,png,webp,avif}", { eager: true });
 const imgs = Object.values(gallery).map((m) => m.default).filter(Boolean);
@@ -16,12 +17,26 @@ const nextShow = [...shows].sort((a, b) => a.date.localeCompare(b.date))[0];
 const genres = ["Rock", "Pop", "Indie"];
 const aboutText =
   "Wir sind FIVEHEADS aus Bad Tölz und Umgebung und machen eigene Songs zwischen Rock, Pop und Indie. Beim Wettbewerb „Your Voice Your Choice“ haben wir den 2 Platz belegt und durften uns über den Preis der besten musikalischen Darbietung freuen.";
+const singleStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "MusicRecording",
+  name: currentSingle.title,
+  byArtist: {
+    "@type": "MusicGroup",
+    name: site.bandName
+  },
+  datePublished: currentSingle.releaseDate,
+  url: `${site.siteUrl}${currentSingle.slug}`,
+  image: `${site.siteUrl}${currentSingle.cover.replace(/^\//, "")}`,
+  sameAs: [currentSingle.spotifyUrl, currentSingle.appleMusicUrl, currentSingle.tuneCoreUrl]
+};
 const fmtShowDate = (iso) =>
   new Intl.DateTimeFormat("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" }).format(
     new Date(iso + "T00:00:00")
   );
 ---
 <BaseLayout title={`${site.bandName}`}>
+  <script type="application/ld+json" set:html={JSON.stringify(singleStructuredData)} />
   <Nav />
 
   <!-- BIG HERO (full-bleed) -->
@@ -35,17 +50,22 @@ const fmtShowDate = (iso) =>
       </h1>
 
       <div class="heroBadges">
+        <span class="badge hot">{currentSingle.releaseState}</span>
+        <span class="badge nextShowBadge">Neue Single: {currentSingle.title}</span>
         {nextShow ? (
           <>
-            <span class="badge hot">Next show</span>
-            <span class="badge nextShowBadge">{fmtShowDate(nextShow.date)} · {nextShow.venue} {nextShow.city}</span>
+            <span class="badge">{fmtShowDate(nextShow.date)} · {nextShow.venue} {nextShow.city}</span>
           </>
         ) : (
           <>
-            <span class="badge hot">Live update</span>
-            <span class="badge nextShowBadge">Keine neuen Termine aktuell</span>
+            <span class="badge">Keine neuen Termine aktuell</span>
           </>
         )}
+      </div>
+
+      <div class="heroActions">
+        <a class="btn primary big" href={`/${currentSingle.slug}`}>Single ansehen</a>
+        <a class="btn big" href={currentSingle.spotifyUrl} target="_blank" rel="noopener">Jetzt auf Spotify</a>
       </div>
     </div>
   </header>
@@ -53,6 +73,55 @@ const fmtShowDate = (iso) =>
   <PhotoStrip />
 
   <main>
+    <section id="single" class="section sectionRelease">
+      <div class="container">
+        <div class="card releaseHeroCard">
+          <div class="releaseVisual">
+            <img src={currentSingle.cover} alt={`Cover von ${currentSingle.title}`} loading="lazy" />
+          </div>
+
+          <div class="releaseContent">
+            <div class="releaseKick">New single</div>
+            <h2 class="releaseTitle">{currentSingle.title}</h2>
+            <p class="p releaseLead">{currentSingle.shortCopy}</p>
+            <p class="p releaseBody">{currentSingle.bodyCopy}</p>
+
+            <div class="releaseMeta">
+              <span class="releaseMetaPill">{currentSingle.releaseState}</span>
+              <span class="releaseMetaPill">Released {currentSingle.releaseLabel}</span>
+              <span class="releaseMetaPill">Single</span>
+            </div>
+
+            <div class="releaseActions">
+              <a class="btn primary big" href={currentSingle.spotifyUrl} target="_blank" rel="noopener">Spotify</a>
+              <a class="btn big" href={currentSingle.appleMusicUrl} target="_blank" rel="noopener">Apple Music</a>
+              <a class="btn big" href={currentSingle.tuneCoreUrl} target="_blank" rel="noopener">Alle Plattformen</a>
+            </div>
+
+            <div class="releaseUtility">
+              <a class="releaseDetailLink" href={`/${currentSingle.slug}`}>Zur Single-Seite</a>
+              <span class="small">FIVEHEADS · {currentSingle.title}</span>
+            </div>
+          </div>
+
+          <div class="releaseEmbedCard">
+            <div class="small">Listen now</div>
+            <iframe
+              style="border-radius:16px"
+              src={currentSingle.spotifyEmbedUrl}
+              width="100%"
+              height="352"
+              frameBorder="0"
+              allowfullscreen=""
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+              title={`Spotify Player für ${currentSingle.title}`}
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- About -->
     <section id="about" class="section sectionAbout">
       <div class="container">
@@ -83,12 +152,15 @@ const fmtShowDate = (iso) =>
     <!-- Music -->
     <section id="music" class="section">
       <div class="container">
-        <h2 class="h2">Hören</h2>
+        <h2 class="h2">Mehr hören</h2>
 
         <div class="card musicCard">
           <div class="musicTop">
-            <div class="musicEyebrow">Single</div>
+            <div class="musicEyebrow">Website track</div>
             <h3 class="musicTitle">In Our Hands</h3>
+            <p class="p musicCopy">
+              Lauter Mal Leiser läuft oben über Spotify, Apple Music und unseren Release-Link.
+            </p>
             <p class="p musicCopy">
               In Our Hands ist für Your Voice Your Choice entstanden.
               Ein Statement für Demokratie und Zusammenhalt.
