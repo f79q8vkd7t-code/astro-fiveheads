@@ -12,12 +12,10 @@ export const currentSingle = {
   youtubeUrl: "",
   amazonMusicUrl: "",
   tuneCoreUrl: "https://social.tunecore.com/linkShare?linkid=ucK9otokKzOJQzjRSJAwFQ",
-  shortCopy:
-    "Die neue FIVEHEADS Single Lauter Mal Leiser ist seit dem 01.05.2026 draußen.",
+  shortCopy: "Neue Single von FIVEHEADS. Jetzt auf allen Plattformen.",
   bodyCopy:
     "Wenn du den Song direkt streamen, teilen oder in deiner Lieblings-App öffnen willst, findest du hier alle offiziellen Links. Spotify, Apple Music und unser TuneCore-Link sind sofort erreichbar.",
-  aboutSong:
-    "Lauter Mal Leiser lebt von Kontrasten. Der Song bewegt sich zwischen Druck und Ruhe und hält genau diesen Moment fest, in dem aus Spannung etwas Ehrliches wird.",
+  aboutSong: "Ein Song zwischen Druck und Ruhe.",
   metaDescription:
     "Lauter Mal Leiser ist die neue Single von FIVEHEADS. Jetzt auf Spotify, Apple Music und über den offiziellen Release-Link hören."
 };
