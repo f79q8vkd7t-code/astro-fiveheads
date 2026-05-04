@@ -76,10 +76,6 @@ const fmtShowDate = (iso) =>
     <section id="single" class="section sectionRelease">
       <div class="container">
         <div class="card releaseHeroCard">
-          <div class="releaseVisual">
-            <img src={currentSingle.cover} alt={`Cover von ${currentSingle.title}`} loading="lazy" />
-          </div>
-
           <div class="releaseContent">
             <div class="releaseKick">New single</div>
             <h2 class="releaseTitle">{currentSingle.title}</h2>
@@ -101,6 +97,20 @@ const fmtShowDate = (iso) =>
             <div class="releaseUtility">
               <a class="releaseDetailLink" href={`/${currentSingle.slug}`}>Zur Single-Seite</a>
               <span class="small">FIVEHEADS · {currentSingle.title}</span>
+            </div>
+          </div>
+
+          <div class="releaseSideStack">
+            <div class="releaseVisualCard">
+              <div class="releaseVisual">
+                <img src={currentSingle.cover} alt={`Cover von ${currentSingle.title}`} loading="lazy" />
+              </div>
+
+              <div class="releaseSideMeta">
+                <span>{currentSingle.releaseState}</span>
+                <span>{currentSingle.releaseLabel}</span>
+                <span>Official release</span>
+              </div>
             </div>
           </div>
 
