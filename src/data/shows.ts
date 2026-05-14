@@ -8,5 +8,15 @@ export type Show = {
 };
 
 export const shows: Show[] = [
-  // Neue Termine folgen.
+  {
+    date: "2026-06-05",
+    city: "Bad Tölz",
+    venue: "Rosengarten",
+    note: "Support für Elena Rud"
+  },
+  {
+    date: "2026-06-07",
+    city: "Bad Tölz",
+    venue: "Rosengarten"
+  }
 ];
