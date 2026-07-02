@@ -5,8 +5,11 @@ export type Show = {
   country?: string;
   ticketUrl?: string;
   note?: string;
+  type?: string; // Event-Typ, z. B. "Hochzeit", "Stadtfest", "Firmenfeier", "Open Air"
 };
 
+// Vergangene Termine bleiben in der Liste — sie erscheinen automatisch
+// unter „Wo wir schon gespielt haben".
 export const shows: Show[] = [
   {
     date: "2026-06-05",

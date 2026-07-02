@@ -1,8 +1,6 @@
 ---
 import { site } from "../config/site";
-import BandAudioPlayer from "./BandAudioPlayer.astro";
 
-const showPlayer = Astro.url.pathname !== "/";
 const note = Astro.props.note;
 ---
 <footer class="section" style="padding-top:0;">
@@ -23,12 +21,5 @@ const note = Astro.props.note;
       <a href={site.links.instagram} target="_blank" rel="me noopener">Instagram</a>
       <a href={site.links.tiktok} target="_blank" rel="me noopener">TikTok</a>
     </div>
-
-    {showPlayer && (
-      <div class="footerPlayer">
-        <div class="small">Player</div>
-        <BandAudioPlayer compact={true} />
-      </div>
-    )}
   </div>
 </footer>

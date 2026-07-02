@@ -6,22 +6,28 @@ const fmt = (iso) => {
   return new Intl.DateTimeFormat("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" }).format(d);
 };
 
+const now = new Date();
+const todayIso = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+
 const sorted = [...shows].sort((a, b) => a.date.localeCompare(b.date));
+const upcoming = sorted.filter((s) => s.date >= todayIso);
+const past = sorted.filter((s) => s.date < todayIso).reverse();
+
+const metaLine = (s) =>
+  [s.type, s.note, s.country].filter(Boolean).join(" · ");
 ---
 <div class="card" style="padding:18px;">
-  <div class="small" style="margin-bottom:10px;">Next shows</div>
+  <div class="small" style="margin-bottom:10px;">Nächste Termine</div>
 
-  {sorted.length ? (
+  {upcoming.length ? (
     <div class="showListRows">
-      {sorted.map((s) => (
+      {upcoming.map((s) => (
         <div class="showRow">
           <div class="small showDate">{fmt(s.date)}</div>
 
           <div class="showMain">
             <div class="showTitle">{s.city} — {s.venue}</div>
-            <div class="small" style="margin-top:4px; opacity:.8;">
-              {s.note ? s.note : ""}{s.country ? (s.note ? " · " : "") + s.country : ""}
-            </div>
+            <div class="small" style="margin-top:4px; opacity:.8;">{metaLine(s)}</div>
           </div>
 
           {s.ticketUrl ? (
@@ -34,9 +40,32 @@ const sorted = [...shows].sort((a, b) => a.date.localeCompare(b.date));
     </div>
   ) : (
     <div class="showEmpty">
-      <div class="showTitle">Aktuell keine neuen Termine</div>
-      <div class="small" style="margin-top:6px; opacity:.8;">Neue Shows werden hier bekanntgegeben.</div>
+      <div class="showTitle">Aktuell keine öffentlichen Termine</div>
+      <div class="small" style="margin-top:6px; opacity:.8;">
+        Private Feiern stehen hier nicht — für euren Termin fragt ihr am besten direkt an.
+      </div>
     </div>
+  )}
+
+  {past.length > 0 && (
+    <>
+      <div class="hr"></div>
+      <div class="small" style="margin-bottom:10px;">Wo wir schon gespielt haben</div>
+      <div class="showListRows">
+        {past.map((s) => (
+          <div class="showRow showRowPast">
+            <div class="small showDate">{fmt(s.date)}</div>
+
+            <div class="showMain">
+              <div class="showTitle">{s.city} — {s.venue}</div>
+              <div class="small" style="margin-top:4px; opacity:.8;">{metaLine(s)}</div>
+            </div>
+
+            <span class="small showAction" aria-hidden="true"></span>
+          </div>
+        ))}
+      </div>
+    </>
   )}
 </div>
 
@@ -53,6 +82,10 @@ const sorted = [...shows].sort((a, b) => a.date.localeCompare(b.date));
     align-items:center;
     border-top:1px solid var(--line);
     padding-top:10px;
+  }
+
+  .showRowPast{
+    opacity:.82;
   }
 
   .showDate{

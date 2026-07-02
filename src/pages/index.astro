@@ -3,40 +3,88 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Nav from "../components/Nav.astro";
 import ShowList from "../components/ShowList.astro";
 import PhotoStrip from "../components/PhotoStrip.astro";
-import BandAudioPlayer from "../components/BandAudioPlayer.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import { site } from "../config/site";
 import { shows } from "../data/shows";
-import { currentSingle } from "../data/releases";
 
 const gallery = import.meta.glob("../assets/gallery/*.{jpg,jpeg,png,webp,avif}", { eager: true });
 const imgs = Object.values(gallery).map((m) => m.default).filter(Boolean);
 imgs.sort((a, b) => (b.src || "").localeCompare(a.src || ""));
 const preview = imgs.slice(0, 12);
-const nextShow = [...shows].sort((a, b) => a.date.localeCompare(b.date))[0];
-const genres = ["Rock", "Pop", "Indie"];
+
+const now = new Date();
+const todayIso = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+const nextShow = [...shows]
+  .filter((s) => s.date >= todayIso)
+  .sort((a, b) => a.date.localeCompare(b.date))[0];
+
+const tags = ["Party", "Charts", "Rock", "Pop"];
+
 const aboutText =
-  "Wir sind FIVEHEADS aus Bad Tölz und Umgebung und machen eigene Songs zwischen Rock, Pop und Indie. Beim Wettbewerb „Your Voice Your Choice“ haben wir den 2 Platz belegt und durften uns über den Preis der besten musikalischen Darbietung freuen.";
-const singleStructuredData = {
-  "@context": "https://schema.org",
-  "@type": "MusicRecording",
-  name: currentSingle.title,
-  byArtist: {
-    "@type": "MusicGroup",
-    name: site.bandName
+  "Wir sind FIVEHEADS, Live-Coverband aus Bad Tölz und dem Oberland. Wir spielen Party-Hits, aktuelle Charts und Rock- und Pop-Klassiker — vom entspannten Empfang bis zur vollen Tanzfläche. Ob Hochzeit, Firmenfeier, Geburtstag oder Stadtfest: Wir stimmen unser Set auf euren Abend ab. Beim Wettbewerb „Your Voice Your Choice“ haben wir den 2. Platz belegt und den Preis für die beste musikalische Darbietung gewonnen.";
+
+// TODO(Alex): Platzhalter — hier eure echten Titel eintragen.
+const repertoire = [
+  { category: "Party-Hits", songs: ["Titel folgt", "Titel folgt", "Titel folgt"] },
+  { category: "Aktuelle Charts", songs: ["Titel folgt", "Titel folgt", "Titel folgt"] },
+  { category: "Rock-Klassiker", songs: ["Titel folgt", "Titel folgt", "Titel folgt"] },
+  { category: "Pop & Evergreens", songs: ["Titel folgt", "Titel folgt", "Titel folgt"] }
+];
+
+const occasions = [
+  {
+    title: "Hochzeit",
+    copy: "Vom ersten Tanz bis zur letzten Zugabe — wir begleiten euren Tag mit dem passenden Sound."
   },
-  datePublished: currentSingle.releaseDate,
-  url: `${site.siteUrl}${currentSingle.slug}`,
-  image: `${site.siteUrl}${currentSingle.cover.replace(/^\//, "")}`,
-  sameAs: [currentSingle.spotifyUrl, currentSingle.appleMusicUrl, currentSingle.tuneCoreUrl]
+  {
+    title: "Firmenfeier",
+    copy: "Sommerfest, Weihnachtsfeier oder Jubiläum: Livemusik, die Kolleginnen und Kollegen auf die Tanzfläche bringt."
+  },
+  {
+    title: "Geburtstag",
+    copy: "Runde Geburtstage und private Feiern — mit Songs, die alle Generationen mitsingen können."
+  },
+  {
+    title: "Stadt- & Vereinsfest",
+    copy: "Open-Air-erprobt und flexibel: Wir spielen Feste, Festzelte und Bühnen jeder Größe."
+  },
+  {
+    title: "Bar & Club",
+    copy: "Ein Abend voller Cover, die das Publikum kennt — direkt, laut und nah dran."
+  }
+];
+
+// TODO(Alex): Platzhalter-Werte — Besetzung, Set-Längen und Technik ergänzen/anpassen.
+const bookingFacts = [
+  { label: "Besetzung", value: "5 Musiker:innen — Angabe folgt" },
+  { label: "Set-Längen", value: "z. B. 2 × 60 min oder 3 × 45 min — Angabe folgt" },
+  { label: "PA & Licht", value: "Angabe folgt" }
+];
+
+const bookingMail = `mailto:${site.contactEmail}?subject=${encodeURIComponent(
+  "Booking-Anfrage FIVEHEADS"
+)}&body=${encodeURIComponent(
+  "Hallo FIVEHEADS,\n\nwir möchten euch gern anfragen:\n\nDatum:\nOrt:\nAnlass:\nGästezahl (ca.):\n\nViele Grüße\n"
+)}`;
+
+const bandStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "MusicGroup",
+  name: site.bandName,
+  url: site.siteUrl,
+  genre: ["Cover", "Party", "Pop", "Rock"],
+  email: site.contactEmail,
+  areaServed: "Bad Tölz und Oberland, Bayern",
+  sameAs: [site.links.instagram, site.links.tiktok]
 };
+
 const fmtShowDate = (iso) =>
   new Intl.DateTimeFormat("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" }).format(
     new Date(iso + "T00:00:00")
   );
 ---
-<BaseLayout title={`${site.bandName}`}>
-  <script type="application/ld+json" set:html={JSON.stringify(singleStructuredData)} />
+<BaseLayout title={`${site.bandName} — Coverband für Events`}>
+  <script type="application/ld+json" set:html={JSON.stringify(bandStructuredData)} />
   <Nav />
 
   <!-- BIG HERO (full-bleed) -->
@@ -49,23 +97,22 @@ const fmtShowDate = (iso) =>
         <span class="heroLine heroLineBot">{site.bandName}</span>
       </h1>
 
+      <p class="heroClaim">
+        Live-Coverband aus dem Oberland — für Hochzeiten, Firmenfeiern und Feste.
+      </p>
+
       <div class="heroBadges">
-        <span class="badge hot">{currentSingle.releaseState}</span>
-        <span class="badge nextShowBadge">Neue Single: {currentSingle.title}</span>
+        <span class="badge hot">Jetzt buchbar</span>
         {nextShow ? (
-          <>
-            <span class="badge">{fmtShowDate(nextShow.date)} · {nextShow.venue} {nextShow.city}</span>
-          </>
+          <span class="badge nextShowBadge">{fmtShowDate(nextShow.date)} · {nextShow.venue} {nextShow.city}</span>
         ) : (
-          <>
-            <span class="badge">Keine neuen Termine aktuell</span>
-          </>
+          <span class="badge">Termine auf Anfrage</span>
         )}
       </div>
 
       <div class="heroActions">
-        <a class="btn primary big" href={`/${currentSingle.slug}`}>Single ansehen</a>
-        <a class="btn big" href={currentSingle.spotifyUrl} target="_blank" rel="noopener">Jetzt auf Spotify</a>
+        <a class="btn primary big" href={bookingMail}>Termin anfragen</a>
+        <a class="btn big" href="/#repertoire">Was wir spielen</a>
       </div>
     </div>
   </header>
@@ -73,76 +120,17 @@ const fmtShowDate = (iso) =>
   <PhotoStrip />
 
   <main>
-    <section id="single" class="section sectionRelease">
-      <div class="container">
-        <div class="card releaseHeroCard">
-          <div class="releaseContent">
-            <div class="releaseKick">New single</div>
-            <h2 class="releaseTitle">{currentSingle.title}</h2>
-            <p class="p releaseLead">{currentSingle.shortCopy}</p>
-            <p class="p releaseBody">{currentSingle.bodyCopy}</p>
-
-            <div class="releaseMeta">
-              <span class="releaseMetaPill">{currentSingle.releaseState}</span>
-              <span class="releaseMetaPill">Released {currentSingle.releaseLabel}</span>
-              <span class="releaseMetaPill">Single</span>
-            </div>
-
-            <div class="releaseActions">
-              <a class="btn primary big" href={currentSingle.spotifyUrl} target="_blank" rel="noopener">Spotify</a>
-              <a class="btn big" href={currentSingle.appleMusicUrl} target="_blank" rel="noopener">Apple Music</a>
-              <a class="btn big" href={currentSingle.tuneCoreUrl} target="_blank" rel="noopener">Alle Plattformen</a>
-            </div>
-
-            <div class="releaseUtility">
-              <a class="releaseDetailLink" href={`/${currentSingle.slug}`}>Zur Single-Seite</a>
-              <span class="small">FIVEHEADS · {currentSingle.title}</span>
-            </div>
-          </div>
-
-          <div class="releaseSideStack">
-            <div class="releaseVisualCard">
-              <div class="releaseVisual">
-                <img src={currentSingle.cover} alt={`Cover von ${currentSingle.title}`} loading="lazy" />
-              </div>
-
-              <div class="releaseSideMeta">
-                <span>{currentSingle.releaseState}</span>
-                <span>{currentSingle.releaseLabel}</span>
-                <span>Official release</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="releaseEmbedCard">
-            <div class="small">Listen now</div>
-            <iframe
-              class="releaseEmbedFrame"
-              src={currentSingle.spotifyEmbedUrl}
-              width="100%"
-              height="232"
-              frameBorder="0"
-              allowfullscreen=""
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
-              title={`Spotify Player für ${currentSingle.title}`}
-            ></iframe>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- About -->
     <section id="about" class="section sectionAbout">
       <div class="container">
         <h2 class="h2">Über uns</h2>
         <div class="card aboutCard">
           <div class="aboutCopy">
-            <div class="musicEyebrow">Über uns</div>
+            <div class="musicEyebrow">Coverband für Events</div>
             <p class="p aboutCopyText">{aboutText}</p>
 
             <div class="aboutPills">
-              {genres.map((t) => (
+              {tags.map((t) => (
                 <span class="pill">{t}</span>
               ))}
             </div>
@@ -151,41 +139,90 @@ const fmtShowDate = (iso) =>
       </div>
     </section>
 
+    <!-- Repertoire -->
+    <section id="repertoire" class="section">
+      <div class="container">
+        <h2 class="h2">Was wir spielen</h2>
+
+        <div class="card" style="padding:18px;">
+          <p class="p" style="max-width:62ch;">
+            Ein Auszug aus unserem Repertoire — die vollständige Songliste schicken wir euch gern auf Anfrage.
+            Wunschsongs für euren Anlass sprechen wir vorab ab.
+          </p>
+
+          <div class="hr"></div>
+
+          <div class="repertoireGrid">
+            {repertoire.map((cat) => (
+              <div class="repertoireCol">
+                <div class="small">{cat.category}</div>
+                <ul class="repertoireList">
+                  {cat.songs.map((s) => (
+                    <li>{s}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Anlässe -->
+    <section id="anlaesse" class="section">
+      <div class="container">
+        <h2 class="h2">Für welche Anlässe</h2>
+
+        <div class="occasionGrid">
+          {occasions.map((o) => (
+            <div class="card occasionCard">
+              <h3 class="occasionTitle">{o.title}</h3>
+              <p class="p occasionCopy">{o.copy}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
     <!-- Live -->
     <section id="live" class="section">
       <div class="container">
-        <h2 class="h2">Konzerte</h2>
+        <h2 class="h2">Auftritte</h2>
         <ShowList />
       </div>
     </section>
 
-    <!-- Music -->
-    <section id="music" class="section">
+    <!-- Booking -->
+    <section id="booking" class="section">
       <div class="container">
-        <h2 class="h2">Mehr hören</h2>
+        <h2 class="h2">Booking & Kontakt</h2>
 
-        <div class="card musicCard">
-          <div class="musicTop">
-            <div class="musicEyebrow">Website track</div>
-            <h3 class="musicTitle">In Our Hands</h3>
-            <p class="p musicCopy">
-              Lauter Mal Leiser läuft oben über Spotify, Apple Music und unseren Release-Link.
-            </p>
-            <p class="p musicCopy">
-              In Our Hands ist für Your Voice Your Choice entstanden.
-              Ein Statement für Demokratie und Zusammenhalt.
-            </p>
+        <div class="card" style="padding:18px;">
+          <div class="bookingFacts">
+            {bookingFacts.map((f) => (
+              <div class="bookingFact">
+                <div class="small">{f.label}</div>
+                <div class="bookingFactValue">{f.value}</div>
+              </div>
+            ))}
           </div>
 
           <div class="hr"></div>
 
-          <BandAudioPlayer />
+          <p class="p" style="max-width:62ch;">
+            Schreibt uns für ein schnelles Angebot am besten direkt <strong>Datum, Ort und Anlass</strong> eurer
+            Veranstaltung — wir melden uns kurzfristig zurück.
+          </p>
+
+          <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px;">
+            <!--email_off--><a class="btn primary big" href={bookingMail}>{site.contactEmail}</a><!--/email_off-->
+          </div>
 
           <div class="hr"></div>
 
-          <div class="small">Follow</div>
+          <div class="small">Social</div>
           <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px;">
-            <a class="btn primary big" href={site.links.instagram} target="_blank" rel="me noopener">Instagram</a>
+            <a class="btn big" href={site.links.instagram} target="_blank" rel="me noopener">Instagram</a>
             <a class="btn big" href={site.links.tiktok} target="_blank" rel="me noopener">TikTok</a>
           </div>
         </div>
@@ -303,45 +340,35 @@ const fmtShowDate = (iso) =>
       </div>
     </section>
 
-    <!-- Contact -->
-    <section id="contact" class="section">
-      <div class="container">
-        <h2 class="h2">Contact</h2>
-
-        <div class="card" style="padding:18px;">
-          <p class="p">
-            E-Mail:
-            <!--email_off--><a class="btn primary" href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a><!--/email_off-->
-          </p>
-
-          <div class="hr"></div>
-
-          <div class="small">Social</div>
-          <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px;">
-            <a class="btn big" href={site.links.instagram} target="_blank" rel="me noopener">Instagram</a>
-            <a class="btn big" href={site.links.tiktok} target="_blank" rel="me noopener">TikTok</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Video -->
     <section id="video" class="section">
       <div class="container">
-        <h2 class="h2">Video</h2>
+        <h2 class="h2">Live-Eindruck</h2>
 
-        <div class="card" style="padding:0; overflow:hidden;">
-          <iframe
-            width="560"
-            height="315"
-            src="https://www.youtube.com/embed/yUWhpLzvb_Y?si=PkLDK97SeT30rK6u"
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen
-            style="display:block; width:100%; aspect-ratio:16/9;"
-          ></iframe>
+        <!--
+          TODO(Alex): Sobald ein Live-Cover-Video da ist, den Platzhalter unten
+          durch das Embed ersetzen (VIDEO_ID austauschen):
+
+          <div class="card" style="padding:0; overflow:hidden;">
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/VIDEO_ID"
+              title="FIVEHEADS live (Cover)"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+              style="display:block; width:100%; aspect-ratio:16/9;"
+            ></iframe>
+          </div>
+        -->
+        <div class="card videoPlaceholder">
+          <div class="videoPlaceholderInner">
+            <div class="small">Video folgt</div>
+            <p class="p">Hier zeigen wir bald einen Live-Mitschnitt von uns — bis dahin: Fotos oben ansehen oder direkt anfragen.</p>
+            <a class="btn primary" href={bookingMail}>Termin anfragen</a>
+          </div>
         </div>
       </div>
     </section>

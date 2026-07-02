@@ -8,5 +8,5 @@ export const site = {
   },
   contactEmail: "booking@five-heads.de",
   description:
-    "FIVEHEADS — junge Rock/Pop/Indie Band. Offizielle Website mit neuer Single Lauter Mal Leiser, Live-Terminen, Fotos und Kontakt."
+    "FIVEHEADS — Live-Coverband aus Bad Tölz und dem Oberland. Party, Charts, Rock und Pop für Hochzeiten, Firmenfeiern, Geburtstage und Feste. Jetzt Termin anfragen."
 };

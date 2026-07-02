@@ -1614,3 +1614,96 @@ button.photoItem{ cursor: zoom-in; }
     max-height: calc(88vh - 52px);
   }
 }
+
+/* ── Coverband-Umbau: Hero-Claim, Repertoire, Anlässe, Booking ── */
+
+.heroClaim{
+  margin: 10px 0 0;
+  max-width: 36ch;
+  font-size: clamp(17px, 2.2vw, 24px);
+  line-height: 1.35;
+  color: rgba(246,244,255,.92);
+  text-wrap: balance;
+  text-shadow: 0 2px 18px rgba(0,0,0,.55);
+}
+
+.repertoireGrid{
+  display:grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.repertoireCol{
+  min-width: 0;
+}
+
+.repertoireList{
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.repertoireList li{
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.occasionGrid{
+  display:grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.occasionCard{
+  padding: 18px;
+}
+
+.occasionTitle{
+  margin: 0 0 8px;
+  font-size: 19px;
+  letter-spacing: -.01em;
+}
+
+.occasionCopy{
+  margin: 0;
+  color: var(--muted);
+}
+
+.bookingFacts{
+  display:grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.bookingFactValue{
+  margin-top: 6px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+
+.videoPlaceholder{
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  padding: 18px;
+  text-align: center;
+}
+
+.videoPlaceholderInner{
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  max-width: 46ch;
+}
+
+/* Sichtbarer Keyboard-Fokus für Links & Buttons */
+a:focus-visible,
+button:focus-visible{
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
