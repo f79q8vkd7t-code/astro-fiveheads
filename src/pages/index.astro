@@ -21,12 +21,7 @@ const nextShow = [...shows]
 const tags = ["Party", "Charts", "Rock", "Pop"];
 
 const aboutText =
-  "Wir sind FIVEHEADS, Live-Coverband aus Bad Tölz und dem Oberland. Wir spielen Party-Hits, aktuelle Charts und Rock- und Pop-Klassiker — vom entspannten Empfang bis zur vollen Tanzfläche. Ob Hochzeit, Firmenfeier, Geburtstag oder Stadtfest: Wir stimmen unser Set auf euren Abend ab. Beim Wettbewerb „Your Voice Your Choice“ haben wir den 2. Platz belegt und den Preis für die beste musikalische Darbietung gewonnen.";
-
-const repertoire = [
-  { category: "Akustik-Set", hint: "Für Empfang, Dinner und Hintergrund" },
-  { category: "Party-Set", hint: "Für die volle Tanzfläche" }
-];
+  "Wir sind FIVEHEADS, Live-Coverband aus Bad Tölz und dem Oberland. Wir spielen Party, Charts, Rock und Pop — vom entspannten Akustik-Set beim Empfang bis zum Party-Set für die volle Tanzfläche. Ob Hochzeit, Firmenfeier, Geburtstag oder Stadtfest: Wir stimmen unser Set auf euren Abend ab. Die komplette Songliste schicken wir euch gern auf Anfrage.";
 
 const occasions = [
   {
@@ -109,7 +104,7 @@ const fmtShowDate = (iso) =>
 
       <div class="heroActions">
         <a class="btn primary big" href={bookingMail}>Termin anfragen</a>
-        <a class="btn big" href="/#repertoire">Was wir spielen</a>
+        <a class="btn big" href="/#anlaesse">Für welche Anlässe</a>
       </div>
     </div>
   </header>
@@ -131,38 +126,6 @@ const fmtShowDate = (iso) =>
                 <span class="pill">{t}</span>
               ))}
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Repertoire -->
-    <section id="repertoire" class="section">
-      <div class="container">
-        <h2 class="h2">Was wir spielen</h2>
-
-        <div class="card" style="padding:18px;">
-          <p class="p" style="max-width:62ch;">
-            Wir spielen Party, Charts, Rock und Pop — vom entspannten Akustik-Set beim Empfang
-            bis zum Party-Set für die volle Tanzfläche. Die komplette Songliste schicken wir euch
-            gern auf Anfrage, Wunschsongs sprechen wir vorab ab.
-          </p>
-
-          <div class="hr"></div>
-
-          <div class="repertoireGrid">
-            {repertoire.map((cat) => (
-              <div class="repertoireCol">
-                <div class="small">{cat.category}</div>
-                {cat.hint && <div class="repertoireHint">{cat.hint}</div>}
-              </div>
-            ))}
-          </div>
-
-          <div class="aboutPills" style="margin-top:16px;">
-            {tags.map((t) => (
-              <span class="pill">{t}</span>
-            ))}
           </div>
         </div>
       </div>

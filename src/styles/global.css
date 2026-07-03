@@ -232,108 +232,9 @@ a:hover{ opacity:.92; }
   box-shadow: 0 0 36px rgba(255,47,179,.34);
 }
 
-.section::before{
-  content: "";
-  position: absolute;
-  inset: clamp(8px, 1vw, 16px) 0;
-  border-radius: clamp(24px, 3vw, 38px);
-  pointer-events: none;
-  z-index: 0;
-  opacity: .92;
-  background:
-    radial-gradient(1100px 560px at 14% 18%, rgba(255,47,179,.14), transparent 62%),
-    radial-gradient(980px 520px at 86% 82%, rgba(72,108,255,.10), transparent 60%),
-    linear-gradient(180deg, rgba(19,17,28,.46), rgba(9,8,15,.16) 34%, rgba(15,13,24,.42) 100%);
-}
-.section::after{
-  content: "";
-  position: absolute;
-  inset: 2% -3% 10%;
-  border-radius: clamp(26px, 3.2vw, 42px);
-  pointer-events: none;
-  z-index: 0;
-  opacity: .32;
-  background:
-    radial-gradient(820px 300px at 10% 22%, rgba(255,47,179,.16), transparent 62%),
-    radial-gradient(780px 300px at 90% 84%, rgba(72,108,255,.14), transparent 64%);
-  filter: blur(62px);
-}
-.section:nth-of-type(even)::before{
-  background:
-    radial-gradient(1100px 560px at 18% 16%, rgba(72,108,255,.12), transparent 60%),
-    radial-gradient(1020px 540px at 82% 84%, rgba(255,47,179,.12), transparent 62%),
-    linear-gradient(180deg, rgba(16,18,30,.46), rgba(8,8,15,.14) 32%, rgba(17,13,25,.40) 100%);
-}
-.section:nth-of-type(even)::after{
-  background:
-    radial-gradient(820px 320px at 12% 24%, rgba(72,108,255,.16), transparent 64%),
-    radial-gradient(760px 300px at 88% 82%, rgba(255,47,179,.14), transparent 62%);
-}
-#about::before{
-  background:
-    radial-gradient(980px 520px at 12% 18%, rgba(255,47,179,.16), transparent 60%),
-    radial-gradient(900px 480px at 92% 84%, rgba(72,108,255,.10), transparent 62%),
-    linear-gradient(180deg, rgba(22,16,28,.48), rgba(10,9,16,.14) 36%, rgba(17,12,24,.36) 100%);
-}
-#live::before{
-  background:
-    radial-gradient(1000px 520px at 14% 22%, rgba(72,108,255,.14), transparent 60%),
-    radial-gradient(860px 420px at 88% 76%, rgba(255,47,179,.11), transparent 62%),
-    linear-gradient(180deg, rgba(15,17,29,.44), rgba(8,8,15,.14) 34%, rgba(13,12,22,.38) 100%);
-}
-#music::before{
-  background:
-    radial-gradient(1000px 520px at 14% 16%, rgba(255,47,179,.18), transparent 58%),
-    radial-gradient(980px 520px at 86% 84%, rgba(72,108,255,.12), transparent 60%),
-    linear-gradient(180deg, rgba(21,14,28,.50), rgba(9,8,14,.12) 32%, rgba(13,12,22,.42) 100%);
-}
-#contact::before{
-  background:
-    radial-gradient(940px 480px at 12% 22%, rgba(255,47,179,.13), transparent 60%),
-    radial-gradient(980px 500px at 90% 78%, rgba(72,108,255,.11), transparent 62%),
-    linear-gradient(180deg, rgba(18,16,28,.46), rgba(9,8,15,.12) 34%, rgba(15,13,24,.42) 100%);
-}
-#video::before{
-  background:
-    radial-gradient(920px 500px at 16% 18%, rgba(72,108,255,.14), transparent 60%),
-    radial-gradient(880px 460px at 84% 82%, rgba(255,47,179,.12), transparent 62%),
-    linear-gradient(180deg, rgba(14,17,28,.46), rgba(8,8,14,.12) 32%, rgba(15,12,22,.40) 100%);
-}
-main > .section:not([id])::before{
-  background:
-    radial-gradient(1020px 540px at 14% 16%, rgba(72,108,255,.14), transparent 60%),
-    radial-gradient(1000px 520px at 86% 84%, rgba(255,47,179,.14), transparent 60%),
-    linear-gradient(180deg, rgba(15,17,29,.48), rgba(8,8,14,.10) 30%, rgba(15,12,23,.40) 100%);
-}
-.sectionPage::before{
-  inset: 0;
-  border-radius: clamp(28px, 3vw, 42px);
-}
-.sectionPage::after{
-  inset: 3% -3% 8%;
-}
-.pageGallery::before{
-  background:
-    radial-gradient(1320px 920px at 14% 16%, rgba(72,108,255,.14), transparent 58%),
-    radial-gradient(1280px 940px at 86% 82%, rgba(255,47,179,.16), transparent 56%),
-    linear-gradient(180deg, rgba(15,17,30,.52), rgba(9,9,15,.14) 26%, rgba(15,12,24,.46) 100%);
-}
-.pageGallery::after{
-  background:
-    radial-gradient(980px 360px at 12% 18%, rgba(72,108,255,.18), transparent 64%),
-    radial-gradient(940px 380px at 88% 86%, rgba(255,47,179,.16), transparent 62%);
-}
-.pageLegal::before{
-  background:
-    radial-gradient(1180px 700px at 12% 16%, rgba(72,108,255,.10), transparent 62%),
-    radial-gradient(1100px 680px at 86% 84%, rgba(255,47,179,.10), transparent 62%),
-    linear-gradient(180deg, rgba(16,18,29,.48), rgba(9,9,15,.16) 28%, rgba(13,12,21,.42) 100%);
-}
-.pageLegal::after{
-  background:
-    radial-gradient(840px 320px at 10% 18%, rgba(72,108,255,.14), transparent 64%),
-    radial-gradient(780px 300px at 90% 84%, rgba(255,47,179,.12), transparent 62%);
-}
+/* Sektionen bewusst ohne eigene Hintergrund-Panels:
+   Farbe kommt allein von den weichen Ambient-Glows am body,
+   die mit dem Viewport skalieren — keine harten Kanten. */
 
 .section > .container{
   position: relative;
@@ -885,17 +786,6 @@ main > .section:not([id])::before{
   color: var(--fg);
 }
 
-.sectionRelease::before{
-  background:
-    radial-gradient(920px 520px at 12% 12%, rgba(255,47,179,.14), transparent 58%),
-    radial-gradient(920px 520px at 92% 86%, rgba(72,108,255,.10), transparent 60%),
-    linear-gradient(180deg, rgba(20,16,28,.48), rgba(10,9,16,.10) 34%, rgba(14,12,22,.34) 100%);
-}
-.sectionRelease::after{
-  background:
-    radial-gradient(640px 240px at 18% 18%, rgba(255,47,179,.12), transparent 62%),
-    radial-gradient(680px 260px at 82% 84%, rgba(72,108,255,.10), transparent 64%);
-}
 .releaseHeroCard{
   display:grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(220px, 292px);
@@ -1509,16 +1399,6 @@ button.photoItem{ cursor: zoom-in; }
   .section .hr{
     margin: 20px 0;
   }
-  .section::before{
-    inset: 0;
-    border-radius: 22px;
-    opacity: .84;
-  }
-  .section::after{
-    inset: 2% -4% 12%;
-    opacity: .26;
-    filter: blur(42px);
-  }
   .card{
     background: rgba(9,9,16,.76);
   }
@@ -1627,41 +1507,40 @@ button.photoItem{ cursor: zoom-in; }
   text-shadow: 0 2px 18px rgba(0,0,0,.55);
 }
 
-.repertoireGrid{
-  display:grid;
-  gap: 18px;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-}
-
-.repertoireCol{
-  min-width: 0;
-}
-
-.repertoireHint{
-  margin-top: 6px;
-  color: var(--muted);
-  font-size: 14px;
-}
-
 .occasionGrid{
   display:grid;
-  gap: 18px;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
 .occasionCard{
-  padding: 18px;
+  padding: 16px 14px;
 }
 
 .occasionTitle{
   margin: 0 0 8px;
-  font-size: 19px;
+  font-size: 16px;
   letter-spacing: -.01em;
+  overflow-wrap: anywhere;
 }
 
 .occasionCopy{
   margin: 0;
   color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@media (max-width: 900px){
+  .occasionGrid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px){
+  .occasionGrid{
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .bookingFacts{
