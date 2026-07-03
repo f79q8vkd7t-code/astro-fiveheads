@@ -1637,19 +1637,10 @@ button.photoItem{ cursor: zoom-in; }
   min-width: 0;
 }
 
-.repertoireList{
-  list-style: none;
-  margin: 10px 0 0;
-  padding: 0;
-  display: grid;
-  gap: 8px;
-}
-
-.repertoireList li{
-  border-top: 1px solid var(--line);
-  padding-top: 8px;
+.repertoireHint{
+  margin-top: 6px;
   color: var(--muted);
-  overflow-wrap: anywhere;
+  font-size: 14px;
 }
 
 .occasionGrid{
